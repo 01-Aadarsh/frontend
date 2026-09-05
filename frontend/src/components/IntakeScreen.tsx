@@ -149,29 +149,31 @@ function IconBadge({ theme, children }: { theme: ThemeName; children: React.Reac
   );
 }
 
-function LogoMark() {
+function LeafGlyph() {
   return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5">
+    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 text-emerald-400">
       <path
-        d="M12 2.4 4.6 5.2v5.4c0 5 3.3 8.7 7.4 10 4.1-1.3 7.4-5 7.4-10V5.2L12 2.4Z"
-        fill="white"
-        fillOpacity="0.18"
-        stroke="white"
-        strokeWidth="1.5"
+        d="M11 20a7 7 0 0 1-1.2-13.9C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
         strokeLinejoin="round"
-      />
-      <path
-        d="M12 7c-2.6 2-3.4 5.2-1.6 8.4C11 12.8 12.6 10.6 15 9.2 13.8 8.3 12.8 7.6 12 7Z"
-        fill="white"
-      />
-      <path
-        d="M12 16c.3-2 1-3.6 2.2-4.9"
-        stroke="white"
-        strokeWidth="1.1"
         strokeLinecap="round"
-        fill="none"
+      />
+      <path
+        d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
       />
     </svg>
+  );
+}
+
+function LogoBadge() {
+  return (
+    <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0B1A16] to-[#173C30] shadow-[0_0_18px_rgba(52,211,153,0.35)]">
+      <LeafGlyph />
+    </span>
   );
 }
 
@@ -275,16 +277,11 @@ export function IntakeScreen({
       <LeafField />
       <div className="relative z-10 w-full max-w-xl rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-10">
         <div className="flex items-start justify-between">
-          <IconBadge theme="rose">
-            <LogoMark />
-          </IconBadge>
+          <LogoBadge />
           <LanguageSwitcher />
         </div>
 
-        <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-neu-sub">
-          Step 0
-        </p>
-        <h1 className="mt-1 text-2xl font-bold text-neu-text sm:text-3xl">
+        <h1 className="mt-5 text-2xl font-bold text-neu-text sm:text-3xl">
           IP-SAKTI Sahayak
         </h1>
         <p className="mt-2 text-sm leading-relaxed text-neu-sub">
