@@ -275,7 +275,7 @@ export function IntakeScreen({
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#0D2B22] via-[#1F4536] to-[#6E4A2A] px-4 py-12">
       <LeafField />
-      <div className="relative z-10 w-full max-w-xl rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-10">
+      <div className="relative z-10 w-full max-w-2xl rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-12">
         <div className="flex items-start justify-between">
           <LogoBadge />
           <LanguageSwitcher />
