@@ -30,6 +30,13 @@ Orchestrated as a deterministic LangGraph DAG (not an autonomous agent loop), wi
 - **Corpus**: 17 documents indexed (~1,480 chunks) — solid national coverage across Patents, GI, Biological Diversity/ABS, clinical-trial rules, and TKDL background; international coverage is currently thin (one WIPO treaty).
 - **Open**: several national Acts still unindexed (Trade Marks, Designs, Copyright, PPV&FR, Drugs and Cosmetics Act itself, Drugs and Magic Remedies Act, FSSAI Ayurveda-Aahar rules), deeper international treaty coverage, multilingual (Bhashini/Sarvam), and the fully-offline demo path (blocked by a known Ollama/CUDA issue on the dev machine — see `backend/generation/llm_client.py`).
 
+## Preview
+
+**Frontend (UI only):** http://localhost:3000 — after running `npm run dev`
+in `frontend/` (see below). No live/hosted deployment exists; this is
+local-only, and it's just the frontend — the backend must be running
+separately too for the chat to actually answer anything.
+
 ## Running locally
 
 All backend commands run from `backend/` — `.env` paths are relative to it.
