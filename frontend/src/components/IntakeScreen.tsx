@@ -3,29 +3,29 @@
 import { useState } from "react";
 import { FORMULATION_CATEGORIES, type Jurisdiction } from "@/lib/types";
 
-type ThemeName = "violet" | "green" | "coral";
+type ThemeName = "rose" | "sage" | "amber";
 
 const THEME: Record<
   ThemeName,
   { badge: string; fill: string; dot: string; text: string }
 > = {
-  violet: {
-    badge: "bg-gradient-to-br from-violet-400 to-purple-600",
-    fill: "bg-gradient-to-r from-violet-400 to-purple-600",
-    dot: "bg-violet-500",
-    text: "text-purple-600",
+  rose: {
+    badge: "bg-gradient-to-br from-rose-300 to-orange-400",
+    fill: "bg-gradient-to-r from-rose-300 to-orange-400",
+    dot: "bg-rose-400",
+    text: "text-rose-600",
   },
-  green: {
-    badge: "bg-gradient-to-br from-emerald-400 to-green-600",
-    fill: "bg-gradient-to-r from-emerald-400 to-green-600",
-    dot: "bg-emerald-500",
-    text: "text-green-600",
+  sage: {
+    badge: "bg-gradient-to-br from-[#B7C79E] to-[#748C5B]",
+    fill: "bg-gradient-to-r from-[#B7C79E] to-[#748C5B]",
+    dot: "bg-[#748C5B]",
+    text: "text-[#5B6F45]",
   },
-  coral: {
-    badge: "bg-gradient-to-br from-orange-400 to-rose-500",
-    fill: "bg-gradient-to-r from-orange-400 to-rose-500",
-    dot: "bg-orange-500",
-    text: "text-orange-600",
+  amber: {
+    badge: "bg-gradient-to-br from-amber-300 to-orange-500",
+    fill: "bg-gradient-to-r from-amber-300 to-orange-500",
+    dot: "bg-amber-500",
+    text: "text-amber-700",
   },
 };
 
@@ -89,7 +89,7 @@ function IconBadge({ theme, children }: { theme: ThemeName; children: React.Reac
 
 function StarMark() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-orange-400">
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-amber-500">
       <path d="M12 2l2.2 6.8H21l-5.6 4.1 2.2 6.9L12 15.7 6.4 19.8l2.2-6.9L3 8.8h6.8Z" />
     </svg>
   );
@@ -122,10 +122,10 @@ export function IntakeScreen({
   const readiness = jurisdiction ? Math.round((stepsDone / 2) * 100) : 0;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neu-bg px-4 py-12">
-      <div className="w-full max-w-xl rounded-[32px] bg-neu-surface p-8 shadow-neu sm:p-10">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0D2B22] via-[#1F4536] to-[#6E4A2A] px-4 py-12">
+      <div className="w-full max-w-xl rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-10">
         <div className="flex items-start justify-between">
-          <IconBadge theme="violet">
+          <IconBadge theme="rose">
             <IconGlobe />
           </IconBadge>
           <StarMark />
@@ -146,7 +146,7 @@ export function IntakeScreen({
         {/* Jurisdiction */}
         <div className="mt-8">
           <div className="flex items-center gap-2.5">
-            <IconBadge theme="violet">
+            <IconBadge theme="rose">
               <IconGlobe />
             </IconBadge>
             <div>
@@ -159,7 +159,7 @@ export function IntakeScreen({
 
           <div className="relative mt-3 flex rounded-full bg-neu-bg p-1 shadow-neuInset">
             <div
-              className={`absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full shadow-neuSm transition-all duration-300 ${THEME.violet.fill} ${
+              className={`absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-full shadow-neuSm transition-all duration-300 ${THEME.rose.fill} ${
                 jurisdiction === "international"
                   ? "translate-x-full opacity-100"
                   : jurisdiction === "national"
@@ -189,14 +189,14 @@ export function IntakeScreen({
           <Dots
             count={2}
             activeIndex={jurisdiction === "national" ? 0 : jurisdiction === "international" ? 1 : null}
-            theme="violet"
+            theme="rose"
           />
         </div>
 
         {/* Category */}
         <div className="mt-7">
           <div className="flex items-center gap-2.5">
-            <IconBadge theme="green">
+            <IconBadge theme="sage">
               <IconLeaf />
             </IconBadge>
             <div>
@@ -213,7 +213,7 @@ export function IntakeScreen({
                 title={c}
                 onClick={() => setCategory((prev) => (prev === c ? null : c))}
                 className={`h-2.5 flex-1 rounded-full transition-colors ${
-                  category === c ? THEME.green.fill : "bg-neu-bg shadow-neuInset"
+                  category === c ? THEME.sage.fill : "bg-neu-bg shadow-neuInset"
                 }`}
                 aria-label={c}
                 aria-pressed={category === c}
@@ -221,14 +221,14 @@ export function IntakeScreen({
             ))}
           </div>
           <p
-            className={`mt-2.5 text-xs font-semibold ${category ? THEME.green.text : "text-neu-sub"}`}
+            className={`mt-2.5 text-xs font-semibold ${category ? THEME.sage.text : "text-neu-sub"}`}
           >
             {category ?? "None selected"}
           </p>
           <Dots
             count={FORMULATION_CATEGORIES.length}
             activeIndex={category ? FORMULATION_CATEGORIES.indexOf(category as (typeof FORMULATION_CATEGORIES)[number]) : null}
-            theme="green"
+            theme="sage"
           />
         </div>
 
@@ -236,18 +236,18 @@ export function IntakeScreen({
         <div className="mt-7">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <IconBadge theme="coral">
+              <IconBadge theme="amber">
                 <IconSend />
               </IconBadge>
               <p className="text-sm font-semibold text-neu-text">Setup progress</p>
             </div>
-            <span className={`text-sm font-bold ${jurisdiction ? THEME.coral.text : "text-neu-sub"}`}>
+            <span className={`text-sm font-bold ${jurisdiction ? THEME.amber.text : "text-neu-sub"}`}>
               {readiness}%
             </span>
           </div>
           <div className="mt-3 h-2.5 w-full rounded-full bg-neu-bg shadow-neuInset">
             <div
-              className={`h-2.5 rounded-full shadow-neuSm transition-all duration-300 ${THEME.coral.fill}`}
+              className={`h-2.5 rounded-full shadow-neuSm transition-all duration-300 ${THEME.amber.fill}`}
               style={{ width: `${readiness}%` }}
             />
           </div>
@@ -256,7 +256,7 @@ export function IntakeScreen({
             type="button"
             disabled={!jurisdiction}
             onClick={() => jurisdiction && onStart(jurisdiction, category)}
-            className={`mt-5 w-full rounded-2xl py-3 text-sm font-semibold text-white shadow-neuSm transition disabled:cursor-not-allowed disabled:opacity-40 ${THEME.coral.fill}`}
+            className={`mt-5 w-full rounded-2xl py-3 text-sm font-semibold text-white shadow-neuSm transition disabled:cursor-not-allowed disabled:opacity-40 ${THEME.amber.fill}`}
           >
             Start asking questions
           </button>
