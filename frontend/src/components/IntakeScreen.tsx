@@ -265,6 +265,7 @@ export function IntakeScreen({
 }) {
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction | null>(null);
   const [category, setCategory] = useState<string | null>(null);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   const stepsDone = (jurisdiction ? 1 : 0) + (category ? 1 : 0);
   const readiness = jurisdiction ? Math.round((stepsDone / 2) * 100) : 0;
@@ -354,15 +355,23 @@ export function IntakeScreen({
             </div>
           </div>
 
-          <div className="mt-3 flex gap-1">
+          <div className="mt-3 flex items-center gap-1">
             {FORMULATION_CATEGORIES.map((c) => (
               <button
                 key={c}
                 type="button"
                 title={c}
                 onClick={() => setCategory((prev) => (prev === c ? null : c))}
-                className={`h-2.5 flex-1 rounded-full transition-colors ${
-                  category === c ? THEME.sage.fill : "bg-neu-bg shadow-neuInset"
+                onMouseEnter={() => setHoveredCategory(c)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                onFocus={() => setHoveredCategory(c)}
+                onBlur={() => setHoveredCategory(null)}
+                className={`flex-1 rounded-full transition-all duration-200 ${
+                  category === c
+                    ? `h-4 ${THEME.sage.fill}`
+                    : hoveredCategory === c
+                      ? "h-3.5 bg-neu-bg shadow-neuInset"
+                      : "h-2.5 bg-neu-bg shadow-neuInset"
                 }`}
                 aria-label={c}
                 aria-pressed={category === c}
@@ -370,9 +379,15 @@ export function IntakeScreen({
             ))}
           </div>
           <p
-            className={`mt-2.5 text-xs font-semibold ${category ? THEME.sage.text : "text-neu-sub"}`}
+            className={`mt-2.5 text-xs font-semibold transition-colors ${
+              hoveredCategory
+                ? "italic text-neu-sub"
+                : category
+                  ? THEME.sage.text
+                  : "text-neu-sub"
+            }`}
           >
-            {category ?? "None selected"}
+            {hoveredCategory ? `Preview: ${hoveredCategory}` : (category ?? "None selected")}
           </p>
           <Dots
             count={FORMULATION_CATEGORIES.length}
