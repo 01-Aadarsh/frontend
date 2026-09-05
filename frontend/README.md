@@ -4,6 +4,12 @@ Next.js + TypeScript + Tailwind chat UI for the IP-SAKTI Sahayak RAG backend.
 Built directly against [`docs/API_CONTRACT.md`](../docs/API_CONTRACT.md) —
 read that first if you're changing how this talks to the backend.
 
+## Preview
+
+**http://localhost:3000** — once you've run `npm run dev` (see below). There
+is no live/hosted deployment yet, so this only works while the dev server is
+running on your own machine.
+
 ## Running locally
 
 ```bash
