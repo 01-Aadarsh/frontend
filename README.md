@@ -1,5 +1,12 @@
 # IP-SAKTI Sahayak
 
+## Preview
+
+**Frontend (UI only):** http://localhost:3000 — after running `npm run dev`
+in `frontend/` (see "Running locally" below). No live/hosted deployment
+exists; this is local-only, and it's just the frontend — the backend must
+be running separately too for the chat to actually answer anything.
+
 A RAG-based AI assistant that answers Ayurveda-related IP and regulatory questions by retrieving from official government and international documents and citing exactly which document, page and section each part of the answer came from — never letting the model write its own citation. Built for **SIH26045** (Ministry of Ayush).
 
 Before any free-form question, the user picks a **jurisdiction** (India / International) and, if known, a **formulation category** (classical medicine, proprietary medicine, new/non-classical drug, phytopharmaceutical, Ayurveda-Aahar/nutraceutical, cosmetic) — the correct IP/ABS posture for an Ayurvedic product depends on both, so that's Step 0, not an afterthought.
@@ -29,13 +36,6 @@ Orchestrated as a deterministic LangGraph DAG (not an autonomous agent loop), wi
 - **Eval** (`eval/`): 15-case held-out set — see [`eval/scored_results.json`](eval/scored_results.json) for the latest scored run. Headline: 10/11 correctly cited in-scope answers, 4/4 correct abstentions on out-of-scope questions.
 - **Corpus**: 17 documents indexed (~1,480 chunks) — solid national coverage across Patents, GI, Biological Diversity/ABS, clinical-trial rules, and TKDL background; international coverage is currently thin (one WIPO treaty).
 - **Open**: several national Acts still unindexed (Trade Marks, Designs, Copyright, PPV&FR, Drugs and Cosmetics Act itself, Drugs and Magic Remedies Act, FSSAI Ayurveda-Aahar rules), deeper international treaty coverage, multilingual (Bhashini/Sarvam), and the fully-offline demo path (blocked by a known Ollama/CUDA issue on the dev machine — see `backend/generation/llm_client.py`).
-
-## Preview
-
-**Frontend (UI only):** http://localhost:3000 — after running `npm run dev`
-in `frontend/` (see below). No live/hosted deployment exists; this is
-local-only, and it's just the frontend — the backend must be running
-separately too for the chat to actually answer anything.
 
 ## Running locally
 
