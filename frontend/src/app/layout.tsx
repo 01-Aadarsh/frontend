@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { FontScaleSync } from "@/components/FontScaleSync";
 
 export const metadata: Metadata = {
   title: "IP-SAKTI Sahayak",
@@ -12,7 +13,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="bg-paper text-ink antialiased">{children}</body>
+      <body className="bg-paper text-ink antialiased">
+        <FontScaleSync />
+        {children}
+      </body>
     </html>
   );
 }

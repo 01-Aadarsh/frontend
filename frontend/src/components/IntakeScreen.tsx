@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FORMULATION_CATEGORIES, type Jurisdiction } from "@/lib/types";
+import { useFontScale } from "@/hooks/useFontScale";
 
 type ThemeName = "rose" | "sage" | "amber";
 
@@ -91,35 +92,34 @@ function LeafField() {
   );
 }
 
-function IconGlobe() {
+function IconScale() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-white">
-      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
-      <path
-        d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+      <line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="8" y1="20" x2="16" y2="20" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="5" y1="7" x2="19" y2="7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="5" y1="7" x2="5" y2="11" stroke="currentColor" strokeWidth="1.3" />
+      <line x1="19" y1="7" x2="19" y2="11" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M2.5 11a2.5 2.5 0 0 0 5 0" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M16.5 11a2.5 2.5 0 0 0 5 0" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   );
 }
 
-function IconLeaf() {
+function IconFlask() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 text-white">
       <path
-        d="M6 18C4 12 7 6 18 5c1 10-4 14-12 13Z"
-        fill="currentColor"
-        fillOpacity="0.25"
-      />
-      <path
-        d="M6 18C4 12 7 6 18 5c1 10-4 14-12 13Z"
+        d="M10 3 10 9 6 19A2 2 0 0 0 8 21H16A2 2 0 0 0 18 19L14 9 14 3"
         stroke="currentColor"
         strokeWidth="1.6"
         strokeLinejoin="round"
+        strokeLinecap="round"
+        fill="currentColor"
+        fillOpacity="0.15"
       />
-      <path d="M6 18C9 14 12 11 16 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <line x1="8" y1="16" x2="16" y2="16" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <line x1="10" y1="3" x2="14" y2="3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   );
 }
@@ -149,9 +149,9 @@ function IconBadge({ theme, children }: { theme: ThemeName; children: React.Reac
   );
 }
 
-function LeafGlyph() {
+function LeafGlyph({ className = "h-6 w-6 text-emerald-400" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 text-emerald-400">
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
       <path
         d="M11 20a7 7 0 0 1-1.2-13.9C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
         stroke="currentColor"
@@ -174,6 +174,80 @@ function LogoBadge() {
     <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0B1A16] to-[#173C30] shadow-[0_0_18px_rgba(52,211,153,0.35)]">
       <LeafGlyph />
     </span>
+  );
+}
+
+function FontSizeControl() {
+  const { decrease, increase, reset } = useFontScale();
+  return (
+    <div className="flex items-center gap-0.5 rounded-full bg-white/70 px-1 py-1.5 shadow-neuSm">
+      <button
+        type="button"
+        onClick={decrease}
+        aria-label="Decrease text size"
+        className="rounded-full px-1.5 text-[10px] font-bold text-neu-sub transition-colors hover:bg-neu-bg hover:text-neu-text"
+      >
+        A-
+      </button>
+      <button
+        type="button"
+        onClick={reset}
+        aria-label="Reset text size"
+        className="rounded-full px-1.5 text-xs font-bold text-neu-sub transition-colors hover:bg-neu-bg hover:text-neu-text"
+      >
+        A
+      </button>
+      <button
+        type="button"
+        onClick={increase}
+        aria-label="Increase text size"
+        className="rounded-full px-1.5 text-sm font-bold text-neu-sub transition-colors hover:bg-neu-bg hover:text-neu-text"
+      >
+        A+
+      </button>
+    </div>
+  );
+}
+
+function IndiaFlag() {
+  const spokes = Array.from({ length: 24 }, (_, i) => {
+    const angle = (i * 2 * Math.PI) / 24;
+    return {
+      x2: Number((16 + 2.6 * Math.cos(angle)).toFixed(3)),
+      y2: Number((11 + 2.6 * Math.sin(angle)).toFixed(3)),
+    };
+  });
+  return (
+    <svg
+      viewBox="0 0 32 22"
+      className="h-4 w-6 shrink-0 rounded-[2px] shadow-sm sm:h-5 sm:w-7"
+      aria-label="Flag of India"
+    >
+      <rect width="32" height="7.33" fill="#FF9933" />
+      <rect y="7.33" width="32" height="7.33" fill="#FFFFFF" />
+      <rect y="14.67" width="32" height="7.33" fill="#138808" />
+      {spokes.map((s, i) => (
+        <line key={i} x1="16" y1="11" x2={s.x2} y2={s.y2} stroke="#000080" strokeWidth="0.25" />
+      ))}
+      <circle cx="16" cy="11" r="2.6" fill="none" stroke="#000080" strokeWidth="0.45" />
+      <circle cx="16" cy="11" r="0.55" fill="#000080" />
+    </svg>
+  );
+}
+
+function AyushBadge() {
+  return (
+    <div className="absolute right-4 top-4 z-20 flex items-center gap-2 sm:right-6 sm:top-6">
+      <IndiaFlag />
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/40 backdrop-blur-sm">
+        <LeafGlyph className="h-4 w-4 text-emerald-300" />
+      </span>
+      <p className="text-right text-[10px] font-bold uppercase leading-tight tracking-wide text-white sm:text-xs">
+        An Initiative under
+        <br />
+        Ministry of AYUSH
+      </p>
+    </div>
   );
 }
 
@@ -267,7 +341,6 @@ export function IntakeScreen({
 }) {
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction | null>(null);
   const [category, setCategory] = useState<string | null>(null);
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   const stepsDone = (jurisdiction ? 1 : 0) + (category ? 1 : 0);
   const readiness = jurisdiction ? Math.round((stepsDone / 2) * 100) : 0;
@@ -275,10 +348,15 @@ export function IntakeScreen({
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#0D2B22] via-[#1F4536] to-[#6E4A2A] px-4 py-12">
       <LeafField />
-      <div className="relative z-10 w-full max-w-2xl rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-12">
+      <AyushBadge />
+      <div className="relative z-10 flex w-full max-w-2xl flex-col items-center">
+      <div className="w-full rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-12">
         <div className="flex items-start justify-between">
           <LogoBadge />
-          <LanguageSwitcher />
+          <div className="flex items-center gap-2">
+            <FontSizeControl />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <h1 className="mt-5 text-2xl font-bold text-neu-text sm:text-3xl">
@@ -294,7 +372,7 @@ export function IntakeScreen({
         <div className="mt-8">
           <div className="flex items-center gap-2.5">
             <IconBadge theme="rose">
-              <IconGlobe />
+              <IconScale />
             </IconBadge>
             <div>
               <p className="text-sm font-semibold text-neu-text">
@@ -344,7 +422,7 @@ export function IntakeScreen({
         <div className="mt-7">
           <div className="flex items-center gap-2.5">
             <IconBadge theme="sage">
-              <IconLeaf />
+              <IconFlask />
             </IconBadge>
             <div>
               <p className="text-sm font-semibold text-neu-text">Formulation category</p>
@@ -352,40 +430,23 @@ export function IntakeScreen({
             </div>
           </div>
 
-          <div className="mt-3 flex items-center gap-1">
+          <div className="mt-3 flex flex-wrap gap-2">
             {FORMULATION_CATEGORIES.map((c) => (
               <button
                 key={c}
                 type="button"
-                title={c}
                 onClick={() => setCategory((prev) => (prev === c ? null : c))}
-                onMouseEnter={() => setHoveredCategory(c)}
-                onMouseLeave={() => setHoveredCategory(null)}
-                onFocus={() => setHoveredCategory(c)}
-                onBlur={() => setHoveredCategory(null)}
-                className={`flex-1 rounded-full transition-all duration-200 ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:scale-105 ${
                   category === c
-                    ? `h-4 ${THEME.sage.fill}`
-                    : hoveredCategory === c
-                      ? "h-3.5 bg-neu-bg shadow-neuInset"
-                      : "h-2.5 bg-neu-bg shadow-neuInset"
+                    ? `scale-105 text-white shadow-neuSm ${THEME.sage.fill}`
+                    : "bg-neu-bg text-neu-sub shadow-neuInset"
                 }`}
-                aria-label={c}
                 aria-pressed={category === c}
-              />
+              >
+                {c}
+              </button>
             ))}
           </div>
-          <p
-            className={`mt-2.5 text-xs font-semibold transition-colors ${
-              hoveredCategory
-                ? "italic text-neu-sub"
-                : category
-                  ? THEME.sage.text
-                  : "text-neu-sub"
-            }`}
-          >
-            {hoveredCategory ? `Preview: ${hoveredCategory}` : (category ?? "None selected")}
-          </p>
           <Dots
             count={FORMULATION_CATEGORIES.length}
             activeIndex={category ? FORMULATION_CATEGORIES.indexOf(category as (typeof FORMULATION_CATEGORIES)[number]) : null}
@@ -422,6 +483,37 @@ export function IntakeScreen({
             Start asking questions
           </button>
         </div>
+      </div>
+
+        <footer className="mt-6 w-full text-center">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-medium text-white/75">
+            <a href="#" className="hover:text-white hover:underline">
+              Why use us?
+            </a>
+            <span aria-hidden>·</span>
+            <a href="#" className="hover:text-white hover:underline">
+              Policy details
+            </a>
+            <span aria-hidden>·</span>
+            <a href="#" className="hover:text-white hover:underline">
+              Contact us
+            </a>
+            <span aria-hidden>·</span>
+            <a
+              href="https://github.com/01-Aadarsh/frontend"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white hover:underline"
+            >
+              View source
+            </a>
+          </div>
+          <p className="mx-auto mt-3 max-w-md text-[11px] leading-relaxed text-white/50">
+            Built for Smart India Hackathon 2026 (SIH26045) under the Ministry
+            of AYUSH, Government of India — an open-source student prototype,
+            not an officially published government service.
+          </p>
+        </footer>
       </div>
     </div>
   );
