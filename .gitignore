@@ -1,0 +1,44 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Node / frontend ---
+node_modules/
+.next/
+dist/
+build/
+
+# --- Environment / secrets ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- OS-specific ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Editor ---
+.vscode/
+.idea/
+
+# --- Logs ---
+*.log
+
+# --- Generated indexes (rebuilt by backend/ingestion/indexer.py) ---
+backend/indexes/
+
+# --- Local-only WhatsApp/sharing materials, not part of the repo ---
+docs/module1_data_collection_guide.pdf
+
+# --- Standing local project context for Claude Code sessions, not part of the repo ---
+CLAUDE.md

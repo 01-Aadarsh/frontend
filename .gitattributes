@@ -1,0 +1,9 @@
+# Force these as binary — never let Git apply line-ending conversion to them,
+# regardless of its content-sniffing heuristic.
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.zip binary
+*.pkl binary
+*.db binary

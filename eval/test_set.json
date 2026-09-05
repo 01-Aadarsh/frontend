@@ -1,0 +1,144 @@
+{
+  "_meta": {
+    "description": "Held-out evaluation set for IP-SAKTI Sahayak, per the PS's explicit evaluation criteria: answer accuracy, citation correctness, safe abstention. Scaled to 15 entries (11 in-scope + 4 out-of-scope) per the build guide's stretch-goal sizing (8-10 minimum, 20-30 ideal) given hackathon time constraints -- a real, run, scored set beats a larger unverified one.",
+    "expected_answer_note": "Written in our own words after reading the actual source documents during this build (not generated from the pipeline itself, which would make this circular) -- this is the informal equivalent of the guide's 'Domain Accuracy Owner' verification step, done by whoever built the corpus rather than a separate reviewer, which is a real limitation worth stating rather than hiding.",
+    "scoring_note": "run_eval.py checks citation correctness by set overlap against expected_source_files (any one match counts as correct -- questions can legitimately be answered from more than one indexed document), and answer accuracy by cosine similarity between the generated answer and expected_answer using the same embedding model already in the pipeline (sentence-transformers/all-MiniLM-L6-v2), not exact string match."
+  },
+  "cases": [
+    {
+      "id": "q1",
+      "question": "What does Section 3(p) say about traditional knowledge?",
+      "jurisdiction": "national",
+      "category": "classical medicine",
+      "expected_answer": "Section 3(p) of the Patents Act provides that an invention which is, in effect, traditional knowledge, or is an aggregation or duplication of known properties of a traditionally known component, is not patentable.",
+      "expected_source_files": ["Patents_Act_1970.pdf", "Patent_Office_Manual_Practice_Procedure_2011.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q2",
+      "question": "How does the Traditional Knowledge Digital Library protect Ayurvedic formulations from patent misappropriation?",
+      "jurisdiction": "national",
+      "category": "classical medicine",
+      "expected_answer": "TKDL is a searchable database of traditional Ayurvedic, Unani, Siddha and Sowa Rigpa formulations that patent examiners worldwide use as prior art evidence, allowing them to reject or invalidate patent applications that claim traditional knowledge as a new invention.",
+      "expected_source_files": ["PIB_TKDL_Factsheet_2022.pdf", "WIPO_TK_Background_Brief.pdf", "Documenting_Traditional_Knowledge_EACPM.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q3",
+      "question": "What is required to register a Geographical Indication for an Ayurvedic product in India?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": "An application must be filed with the Registrar of Geographical Indications specifying the applicant's details, a description of the goods and the geographical area of origin, along with authentic evidence linking the product uniquely to that region, signed by the applicant or an authorised agent.",
+      "expected_source_files": ["GI_Act_1999.pdf", "GI_Rules_2002.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q4",
+      "question": "What changed in the 2025 amendment to the Geographical Indications Rules?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": "The 2025 amendment modifies specific provisions of the Geographical Indications of Goods (Registration and Protection) Rules, 2002 -- it is an amendment act, not a full restatement of the rules.",
+      "expected_source_files": ["GI_Rules_2025_Amendment.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q5",
+      "question": "What do the New Drugs and Clinical Trials Rules 2019 require before a new Ayurvedic drug can be tested on humans?",
+      "jurisdiction": "national",
+      "category": "new or non-classical drug",
+      "expected_answer": "A new drug requires regulatory approval and registration of the clinical trial before enrolment of the first participant, along with evidence generation on safety and effectiveness under CDSCO's New Drugs and Clinical Trials Rules, 2019.",
+      "expected_source_files": ["NDCT_Rules_2019.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q6",
+      "question": "What information must be submitted to register a clinical trial with CTRI?",
+      "jurisdiction": "national",
+      "category": "new or non-classical drug",
+      "expected_answer": "CTRI registration requires the public and scientific title of the study, principal investigator details, sponsor information, site of study, ethics committee approval status, intervention and comparator details, and primary/secondary outcomes, among other fields in the CTRI dataset.",
+      "expected_source_files": ["CTRI_Registration_Guidelines.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q7",
+      "question": "What is Access and Benefit Sharing under India's Biological Diversity Act?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": "Access and Benefit Sharing (ABS) requires anyone seeking to access India's biological resources or associated traditional knowledge for research or commercial use to obtain approval from the National Biodiversity Authority, and to share benefits arising from that use fairly with the country and local communities.",
+      "expected_source_files": ["Biological_Diversity_Act_2002.pdf", "Biological_Diversity_Amendment_Act_2023.pdf", "Biological_Diversity_Rules_2024.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q8",
+      "question": "Under the Biological Diversity Rules 2024, what happens if someone possessed an Indian biological resource before April 2024 without prior approval?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": "The 2024 Rules include provisions for regularising past violations or non-compliance involving possession of an Indian biological resource prior to April 1, 2024, rather than only penalising them.",
+      "expected_source_files": ["Biological_Diversity_Rules_2024.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q9",
+      "question": "What is the vision behind India's National IPR Policy 2016?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": "The National IPR Policy 2016 sets out a vision for stimulating a dynamic, vibrant and balanced intellectual property rights system in India to foster creativity and innovation, promoting India's socio-economic development while protecting the public interest.",
+      "expected_source_files": ["National_IPR_Policy_2016.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q10",
+      "question": "What disclosure does the WIPO Treaty on Genetic Resources and Associated Traditional Knowledge require in a patent application?",
+      "jurisdiction": "international",
+      "category": null,
+      "expected_answer": "The WIPO GRATK Treaty (2024) requires patent applicants to disclose the country of origin or source of genetic resources, and of traditional knowledge associated with genetic resources, when the claimed invention is based on them.",
+      "expected_source_files": ["WIPO_GRATK_Treaty_2024.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "q11",
+      "question": "What does the Jan Vishwas Act change about penalties for minor IP-related offences?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": "The Jan Vishwas (Amendment of Provisions) Act, 2023 decriminalises and rationalises minor offences across several enactments, including provisions under IP statutes, generally replacing criminal penalties with civil ones to reduce compliance burden.",
+      "expected_source_files": ["Jan_Vishwas_Amendment_Act_2023.pdf"],
+      "should_abstain": false
+    },
+    {
+      "id": "oos1",
+      "question": "What is the capital of France?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": null,
+      "expected_source_files": [],
+      "should_abstain": true
+    },
+    {
+      "id": "oos2",
+      "question": "What is today's weather forecast for Mumbai?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": null,
+      "expected_source_files": [],
+      "should_abstain": true
+    },
+    {
+      "id": "oos3",
+      "question": "How do I file a trademark application in the United States?",
+      "jurisdiction": "international",
+      "category": null,
+      "expected_answer": null,
+      "expected_source_files": [],
+      "should_abstain": true
+    },
+    {
+      "id": "oos4",
+      "question": "What is the recommended dosage of paracetamol for a child with fever?",
+      "jurisdiction": "national",
+      "category": null,
+      "expected_answer": null,
+      "expected_source_files": [],
+      "should_abstain": true
+    }
+  ]
+}

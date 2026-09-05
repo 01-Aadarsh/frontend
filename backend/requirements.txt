@@ -1,0 +1,28 @@
+# IP-SAKTI Sahayak — backend dependencies
+# Pinned versions from Ayush's ingestion module (backend/ingestion/) — kept as
+# the baseline so the whole team installs identical versions before the demo.
+
+# --- ingestion (Module 1/2) ---
+pdfplumber==0.11.4
+
+# --- retrieval (Modules 2.5, 3, 4) — rank_bm25/sentence-transformers shared with ingestion ---
+rank-bm25==0.2.2
+sentence-transformers==3.3.1
+
+# --- database (pgvector via psycopg3) ---
+psycopg[binary]==3.2.3
+pgvector==0.3.6
+python-dotenv==1.0.1
+
+# --- api (Module 9) ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+
+# --- graph (Module 7) ---
+langgraph==0.2.60
+langchain-core==0.3.28
+
+# --- generation (Modules 5, 6) ---
+groq==0.13.1
+ollama==0.4.4

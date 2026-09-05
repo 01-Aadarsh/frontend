@@ -1,0 +1,286 @@
+{
+  "summary": {
+    "total_cases": 15,
+    "abstention_correct": "14/15",
+    "citation_correct_overall": "14/15",
+    "citation_correct_in_scope_only": "10/11",
+    "correct_abstentions_on_out_of_scope": "4/4",
+    "answer_similarity_pass": "14/15",
+    "similarity_threshold": 0.55
+  },
+  "results": [
+    {
+      "id": "q1",
+      "question": "What does Section 3(p) say about traditional knowledge?",
+      "elapsed_s": 25.7,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "Patent_Office_Manual_Practice_Procedure_2011.pdf",
+        "Patents_Act_1970.pdf"
+      ],
+      "actual_sources": [
+        "Documenting_Traditional_Knowledge_EACPM.pdf",
+        "IPIndia_Patent_Guidelines_TK_Biological_Material.pdf",
+        "Patent_Office_Manual_Practice_Procedure_2011.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.959,
+      "answer_correct": true,
+      "answer": "Section 3(p) provides that an invention which, in effect, is traditional knowledge—or merely an aggregation or duplication of the known properties of traditionally known component(s)—is not considered an invention and therefore is not patentable under the Patents Act."
+    },
+    {
+      "id": "q2",
+      "question": "How does the Traditional Knowledge Digital Library protect Ayurvedic formulations from patent misappropriation?",
+      "elapsed_s": 15.2,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "Documenting_Traditional_Knowledge_EACPM.pdf",
+        "PIB_TKDL_Factsheet_2022.pdf",
+        "WIPO_TK_Background_Brief.pdf"
+      ],
+      "actual_sources": [
+        "Documenting_Traditional_Knowledge_EACPM.pdf",
+        "IPIndia_Patent_Guidelines_TK_Biological_Material.pdf",
+        "PIB_TKDL_Factsheet_2022.pdf",
+        "WIPO_TK_Background_Brief.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.698,
+      "answer_correct": true,
+      "answer": "The Traditional Knowledge Digital Library (TKDL) safeguards Ayurvedic formulations by turning the centuries‑old knowledge recorded in classical texts into a searchable, multilingual prior‑art database that patent offices can consult.  \n\n* **Digitisation and translation** – Over 119,269 Ayurvedic formulations have been transcribed from Sanskrit, Hindi and other regional languages and translated into English, French, German, Spanish and Japanese.  \n* **Controlled access for patent offices** – Patent offices worldwide that have signed non‑disclosure agreements with CSIR are given direct access to the TKDL database, so examiners can see the existing traditional knowledge before granting a patent.  \n* **Defensive actions** – The CSIR‑TKDL unit files third‑party observations and pre‑grant oppositions on patent applications that claim Ayurvedic inventions, using the TKDL evidence to demonstrate lack of novelty.  \n\nThese steps have led to the withdrawal, amendment or cancellation of hundreds of patent applications that attempted to claim Ayurvedic formulations, thereby preventing misappropriation of India’s traditional knowledge."
+    },
+    {
+      "id": "q3",
+      "question": "What is required to register a Geographical Indication for an Ayurvedic product in India?",
+      "elapsed_s": 15.5,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "GI_Act_1999.pdf",
+        "GI_Rules_2002.pdf"
+      ],
+      "actual_sources": [
+        "GI_Act_1999.pdf",
+        "GI_Rules_2002.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.725,
+      "answer_correct": true,
+      "answer": "To register a Geographical Indication (GI) for an Ayurvedic product you must file an application with the Geographical Indications Registry that includes the following:\n\n* **Statement of use** – a declaration of the period during which the GI has been used and the person who has used it for the goods claimed.  \n* **Affidavit with exhibits** – proof that the GI is actually used, showing the volume of sales, the exact territory (country, region or locality) to which the GI relates, and any other particulars the Registrar may require.  \n* **Representation of the GI** – a drawing or logo placed on the application form, not larger than 33 cm × 20 cm with a 4 cm left‑hand margin.  \n* **Additional representations** – the application must be in triplicate and be accompanied by five identical extra copies of the GI representation. Each copy must state the specification and class of goods, the applicant’s name and address (and of the agent, if any), the period of use and any other particulars required under Rule 32, and be signed by the applicant or his agent.  \n* **Applicant details** – name and description of the applicant, address of the principal place of business in India (or, if none, an address for service in India and the address in the home country), and particulars of the trade, business, profession or occupation of the proprietor/association.  \n* **Goods and class** – the class of goods to which the GI will apply.  \n* **Priority claim (if any)** – the priority date to be accorded under a convention application, when claimed.  \n* **Summary of particulars** – a summary of the information required under Rule 32 as finally accepted by the Registrar.  \n* **Address for service in India** – an address in India as prescribed in Section 17; without it the Registrar is under no obligation to serve notices.  \n* **Filing location** – the application must be filed in the office of the Geographical Indications Registry whose territorial limits cover the GI’s territory, or, if the territory is outside India, in the office where the Indian address for service is situated.\n\nOnce these documents and details are submitted, the Registrar will examine the application, record any grounds for refusal or conditional acceptance, and, if approved, enter the GI in the register with all the particulars listed above."
+    },
+    {
+      "id": "q4",
+      "question": "What changed in the 2025 amendment to the Geographical Indications Rules?",
+      "elapsed_s": 14.4,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "GI_Rules_2025_Amendment.pdf"
+      ],
+      "actual_sources": [
+        "GI_Act_1999.pdf",
+        "GI_Rules_2002.pdf",
+        "GI_Rules_2025_Amendment.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.89,
+      "answer_correct": true,
+      "answer": "The 2025 amendment introduced two main changes to the Geographical Indications of Goods (Registration and Protection) Rules, 2002:\n\n1. **New short title and commencement** – The rules are now called the *Geographical Indications of Goods (Registration and Protection) (Amendment) Rules, 2025* and they will take effect on the date they are published in the Official Gazette.\n\n2. **Substitution of the First Schedule** – The amendment replaces the original First Schedule of the 2002 Rules with a new First Schedule (referenced in rule 10(1))."
+    },
+    {
+      "id": "q5",
+      "question": "What do the New Drugs and Clinical Trials Rules 2019 require before a new Ayurvedic drug can be tested on humans?",
+      "elapsed_s": 14.6,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "NDCT_Rules_2019.pdf"
+      ],
+      "actual_sources": [
+        "NDCT_Rules_2019.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.694,
+      "answer_correct": true,
+      "answer": "Before any human testing of a new or non‑classical Ayurvedic drug, the New Drugs and Clinical Trials Rules 2019 require that the applicant obtain permission from the Central Licensing Authority. The applicant must submit a formal application (e.g., Form CT‑06A or CT‑07A) together with an annexure that provides:\n\n* the name of the new drug or investigational new drug, its therapeutic class, dosage form, composition and intended indications;  \n* the details of the clinical‑trial site (name and address), the ethics‑committee details, and the name of the principal investigator; and  \n* any other information required under the relevant rule (e.g., protocol number for a bio‑availability/bio‑equivalence study).\n\nThe permission is granted subject to the conditions prescribed in Part A or Part B of Chapter V of the Rules. Only after this approval is obtained may the clinical trial be initiated on humans."
+    },
+    {
+      "id": "q6",
+      "question": "What information must be submitted to register a clinical trial with CTRI?",
+      "elapsed_s": 13.8,
+      "expected_abstain": false,
+      "actual_abstain": true,
+      "abstention_correct": false,
+      "expected_sources": [
+        "CTRI_Registration_Guidelines.pdf"
+      ],
+      "actual_sources": [],
+      "citation_correct": false,
+      "similarity": 0.572,
+      "answer_correct": true,
+      "answer": "I could not find this in my sources.  \nCould you specify which rule or schedule you are referring to for the CTRI registration requirements?"
+    },
+    {
+      "id": "q7",
+      "question": "What is Access and Benefit Sharing under India's Biological Diversity Act?",
+      "elapsed_s": 14.1,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "Biological_Diversity_Act_2002.pdf",
+        "Biological_Diversity_Amendment_Act_2023.pdf",
+        "Biological_Diversity_Rules_2024.pdf"
+      ],
+      "actual_sources": [
+        "Biological_Diversity_Act_2002.pdf",
+        "Biological_Diversity_Amendment_Act_2023.pdf",
+        "Biological_Diversity_Rules_2024.pdf",
+        "National_IPR_Policy_2016.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.805,
+      "answer_correct": true,
+      "answer": "Access and Benefit‑Sharing (ABS) under India’s Biological Diversity Act is the regulated framework that governs:\n\n* **Access** – the collection, procurement or possession of any biological resource occurring in or obtained from India, or the associated traditional knowledge, for research, bio‑survey or commercial utilisation (as defined in the Act).  \n* **Benefit‑Sharing** – the requirement that benefits arising from the use of those resources or knowledge be shared fairly and equitably with the “benefit claimers” – the conservers of the resources, their by‑products, creators or holders of the associated traditional knowledge – in accordance with mutually agreed terms.\n\nThe National Biodiversity Authority (or the relevant State Biodiversity Board) oversees the process, requiring declarations, issuing approvals, notifying the Access and Benefit‑Sharing Clearing‑House of the Convention on Biological Diversity, and ensuring that any benefits are paid directly to the appropriate claimers or organisations."
+    },
+    {
+      "id": "q8",
+      "question": "Under the Biological Diversity Rules 2024, what happens if someone possessed an Indian biological resource before April 2024 without prior approval?",
+      "elapsed_s": 19.2,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "Biological_Diversity_Rules_2024.pdf"
+      ],
+      "actual_sources": [
+        "Biological_Diversity_Act_2002.pdf",
+        "Biological_Diversity_Rules_2024.pdf",
+        "IPIndia_Patent_Guidelines_TK_Biological_Material.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.536,
+      "answer_correct": false,
+      "answer": "If a person already had a biological resource in his/her possession before the Biological Diversity (Amendment) Act 2023 came into force, the Rules require that person to obtain approval from the National Biodiversity Authority for any further use (research, commercial utilisation, bio‑survey or bio‑utilisation). The person must submit an application on the Authority’s web portal (Form 1 for research/bio‑survey/bio‑utilisation, Form 2 for commercial utilisation) and pay the prescribed fee."
+    },
+    {
+      "id": "q9",
+      "question": "What is the vision behind India's National IPR Policy 2016?",
+      "elapsed_s": 15.7,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "National_IPR_Policy_2016.pdf"
+      ],
+      "actual_sources": [
+        "National_IPR_Policy_2016.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.683,
+      "answer_correct": true,
+      "answer": "The vision is an India where creativity and innovation are stimulated by intellectual property for the benefit of all; where IP promotes advancement in science and technology, arts and culture, traditional knowledge and biodiversity resources; and where knowledge is the main driver of development, with owned knowledge transformed into shared knowledge."
+    },
+    {
+      "id": "q10",
+      "question": "What disclosure does the WIPO Treaty on Genetic Resources and Associated Traditional Knowledge require in a patent application?",
+      "elapsed_s": 11.2,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "WIPO_GRATK_Treaty_2024.pdf"
+      ],
+      "actual_sources": [
+        "WIPO_GRATK_Treaty_2024.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.71,
+      "answer_correct": true,
+      "answer": "The Treaty obliges patent offices to require applicants to disclose the following information in a patent application:\n\n* **If the invention is based on genetic resources** – the applicant must disclose either  \n  a) the country of origin of the genetic resources, **or**  \n  b) where the country of origin is not known (or does not apply), the source of the genetic resources.\n\n* **If the invention is based on traditional knowledge associated with genetic resources** – the applicant must disclose either  \n  a) the Indigenous Peoples or local community that provided the traditional knowledge, **or**  \n  b) where that information is not known (or does not apply), the source of the traditional knowledge.\n\n* **If the applicant does not know any of the above information**, the applicant must make a declaration stating that the information is unknown and that the declaration is true and correct to the best of the applicant’s knowledge.\n\nThe disclosed information must be made available in accordance with patent procedures, subject to any confidentiality protections, and the patent office is not required to verify the authenticity of the disclosure."
+    },
+    {
+      "id": "q11",
+      "question": "What does the Jan Vishwas Act change about penalties for minor IP-related offences?",
+      "elapsed_s": 37.5,
+      "expected_abstain": false,
+      "actual_abstain": false,
+      "abstention_correct": true,
+      "expected_sources": [
+        "Jan_Vishwas_Amendment_Act_2023.pdf"
+      ],
+      "actual_sources": [
+        "Biological_Diversity_Rules_2024.pdf",
+        "Jan_Vishwas_Amendment_Act_2023.pdf",
+        "Patents_Act_1970.pdf"
+      ],
+      "citation_correct": true,
+      "similarity": 0.811,
+      "answer_correct": true,
+      "answer": "The Jan Vishwas (Amendment of Provisions) Act, 2023 raises the monetary sanctions for the various IP‑related offences listed in the amended statutes. Specifically, the Act provides that the fines and penalties that were already prescribed in those provisions are to be increased by **ten percent of the minimum amount of the fine or penalty** that was previously applicable. This upward adjustment applies to the minor offences such as unauthorised claims of patent rights, wrongful use of “patent office” wording, non‑registered patent‑agent practice and related refusals to furnish information."
+    },
+    {
+      "id": "oos1",
+      "question": "What is the capital of France?",
+      "elapsed_s": 37.2,
+      "expected_abstain": true,
+      "actual_abstain": true,
+      "abstention_correct": true,
+      "expected_sources": [],
+      "actual_sources": [],
+      "citation_correct": true,
+      "similarity": null,
+      "answer_correct": true,
+      "answer": "I could not find this in my sources.  \nCould you specify the source or document where the capital city of France is mentioned?"
+    },
+    {
+      "id": "oos2",
+      "question": "What is today's weather forecast for Mumbai?",
+      "elapsed_s": 37.0,
+      "expected_abstain": true,
+      "actual_abstain": true,
+      "abstention_correct": true,
+      "expected_sources": [],
+      "actual_sources": [],
+      "citation_correct": true,
+      "similarity": null,
+      "answer_correct": true,
+      "answer": "I could not find this in my sources.  \nCould you specify the source or document that contains the Mumbai weather forecast?"
+    },
+    {
+      "id": "oos3",
+      "question": "How do I file a trademark application in the United States?",
+      "elapsed_s": 18.0,
+      "expected_abstain": true,
+      "actual_abstain": true,
+      "abstention_correct": true,
+      "expected_sources": [],
+      "actual_sources": [],
+      "citation_correct": true,
+      "similarity": null,
+      "answer_correct": true,
+      "answer": "I could not find this in my sources.  \nCould you specify which part of the USPTO trademark filing process you need details on (e.g., the initial search, completing the application form, or the examination stage)?"
+    },
+    {
+      "id": "oos4",
+      "question": "What is the recommended dosage of paracetamol for a child with fever?",
+      "elapsed_s": 38.2,
+      "expected_abstain": true,
+      "actual_abstain": true,
+      "abstention_correct": true,
+      "expected_sources": [],
+      "actual_sources": [],
+      "citation_correct": true,
+      "similarity": null,
+      "answer_correct": true,
+      "answer": "I could not find this in my sources.\nCould you specify the regulatory guideline or document you are referring to for the recommended pediatric paracetamol dosage?"
+    }
+  ]
+}
