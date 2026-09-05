@@ -26,6 +26,12 @@ const config: Config = {
           50: "#F4EDE4",
           200: "#E4D5C2",
         },
+        neu: {
+          bg: "#E9ECF2",
+          surface: "#F3F5F9",
+          text: "#3A3F4B",
+          sub: "#8A90A3",
+        },
       },
       fontFamily: {
         sans: [
@@ -39,6 +45,9 @@ const config: Config = {
       },
       boxShadow: {
         panel: "0 1px 2px rgba(34, 30, 23, 0.06), 0 4px 16px rgba(34, 30, 23, 0.06)",
+        neu: "9px 9px 18px rgba(163, 172, 196, 0.45), -9px -9px 18px rgba(255, 255, 255, 0.85)",
+        neuSm: "4px 4px 8px rgba(163, 172, 196, 0.4), -4px -4px 8px rgba(255, 255, 255, 0.8)",
+        neuInset: "inset 3px 3px 6px rgba(163, 172, 196, 0.4), inset -3px -3px 6px rgba(255, 255, 255, 0.75)",
       },
       keyframes: {
         pulseSoft: {

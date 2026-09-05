@@ -1,33 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { IntakeScreen } from "@/components/IntakeScreen";
-import { ChatView } from "@/components/ChatView";
 import type { Jurisdiction } from "@/lib/types";
 
-interface IntakeContext {
-  jurisdiction: Jurisdiction;
-  category: string | null;
-}
-
 export default function Home() {
-  const [context, setContext] = useState<IntakeContext | null>(null);
-
-  if (!context) {
-    return (
-      <IntakeScreen
-        onStart={(jurisdiction, category) =>
-          setContext({ jurisdiction, category })
-        }
-      />
-    );
-  }
+  const router = useRouter();
 
   return (
-    <ChatView
-      jurisdiction={context.jurisdiction}
-      category={context.category}
-      onChangeContext={() => setContext(null)}
+    <IntakeScreen
+      onStart={(jurisdiction: Jurisdiction, category: string | null) => {
+        const params = new URLSearchParams({ jurisdiction });
+        if (category) params.set("category", category);
+        router.push(`/chat?${params.toString()}`);
+      }}
     />
   );
 }

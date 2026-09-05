@@ -28,26 +28,29 @@ export function Header({
 
   return (
     <header className="flex items-center justify-between gap-3 border-b border-clay-200 bg-white px-4 py-3 sm:px-6">
-      <div className="min-w-0">
-        <p className="truncate font-serif text-base font-semibold text-ink">
-          IP-SAKTI Sahayak
-        </p>
-        <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink/50">
-          <span className="rounded-full bg-forest-50 px-2 py-0.5 font-medium text-forest-700">
-            {jurisdiction === "national" ? "India" : "International"}
-          </span>
-          {category && (
-            <span className="rounded-full bg-saffron-100 px-2 py-0.5 font-medium text-saffron-600">
-              {category}
+      <div className="flex min-w-0 items-center gap-3">
+        <button
+          type="button"
+          onClick={onChangeContext}
+          className="flex shrink-0 items-center gap-1.5 rounded-full border border-clay-200 px-3 py-1.5 text-xs font-semibold text-ink/70 transition hover:border-forest-300 hover:bg-forest-50 hover:text-forest-700"
+        >
+          <span aria-hidden>←</span> Back to setup
+        </button>
+
+        <div className="min-w-0 border-l border-clay-200 pl-3">
+          <p className="truncate font-serif text-base font-semibold text-ink">
+            IP-SAKTI Sahayak
+          </p>
+          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink/50">
+            <span className="rounded-full bg-forest-50 px-2 py-0.5 font-medium text-forest-700">
+              {jurisdiction === "national" ? "India" : "International"}
             </span>
-          )}
-          <button
-            type="button"
-            onClick={onChangeContext}
-            className="underline decoration-ink/20 underline-offset-2 hover:text-ink/70"
-          >
-            Change
-          </button>
+            {category && (
+              <span className="rounded-full bg-saffron-100 px-2 py-0.5 font-medium text-saffron-600">
+                {category}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
