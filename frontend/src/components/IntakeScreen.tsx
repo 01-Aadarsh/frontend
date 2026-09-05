@@ -149,11 +149,97 @@ function IconBadge({ theme, children }: { theme: ThemeName; children: React.Reac
   );
 }
 
-function StarMark() {
+function LogoMark() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-amber-500">
-      <path d="M12 2l2.2 6.8H21l-5.6 4.1 2.2 6.9L12 15.7 6.4 19.8l2.2-6.9L3 8.8h6.8Z" />
+    <svg viewBox="0 0 24 24" className="h-5 w-5">
+      <path
+        d="M12 2.4 4.6 5.2v5.4c0 5 3.3 8.7 7.4 10 4.1-1.3 7.4-5 7.4-10V5.2L12 2.4Z"
+        fill="white"
+        fillOpacity="0.18"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 7c-2.6 2-3.4 5.2-1.6 8.4C11 12.8 12.6 10.6 15 9.2 13.8 8.3 12.8 7.6 12 7Z"
+        fill="white"
+      />
+      <path
+        d="M12 16c.3-2 1-3.6 2.2-4.9"
+        stroke="white"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+        fill="none"
+      />
     </svg>
+  );
+}
+
+const LANGUAGES = [
+  { code: "en", label: "English" },
+  { code: "hi", label: "हिन्दी" },
+  { code: "mr", label: "मराठी" },
+  { code: "ta", label: "தமிழ்" },
+  { code: "te", label: "తెలుగు" },
+  { code: "bn", label: "বাংলা" },
+] as const;
+
+function IconTranslate() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5 text-neu-text">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M4 12h16M12 4c2.2 2.2 2.2 13.8 0 16M12 4c-2.2 2.2-2.2 13.8 0 16"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function LanguageSwitcher() {
+  const [open, setOpen] = useState(false);
+  const [lang, setLang] = useState<(typeof LANGUAGES)[number]>(LANGUAGES[0]);
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1.5 rounded-full bg-white/70 px-2.5 py-1.5 text-xs font-semibold text-neu-text shadow-neuSm"
+      >
+        <IconTranslate />
+        {lang.code.toUpperCase()}
+        <span className={`text-[10px] text-neu-sub transition-transform ${open ? "rotate-180" : ""}`}>
+          ▾
+        </span>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full z-20 mt-2 w-44 rounded-2xl bg-neu-surface p-1.5 shadow-neu">
+          {LANGUAGES.map((l) => (
+            <button
+              key={l.code}
+              type="button"
+              onClick={() => {
+                setLang(l);
+                setOpen(false);
+              }}
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition-colors ${
+                lang.code === l.code ? "bg-neu-bg text-neu-text" : "text-neu-sub hover:bg-neu-bg/60"
+              }`}
+            >
+              {l.label}
+              {lang.code === l.code && <span>✓</span>}
+            </button>
+          ))}
+          <p className="mt-1 border-t border-neu-bg px-3 pt-2 text-[10px] leading-snug text-neu-sub">
+            Powered by Bhashini / Sarvam — full answer translation coming soon.
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -189,9 +275,9 @@ export function IntakeScreen({
       <div className="relative z-10 w-full max-w-xl rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-10">
         <div className="flex items-start justify-between">
           <IconBadge theme="rose">
-            <IconGlobe />
+            <LogoMark />
           </IconBadge>
-          <StarMark />
+          <LanguageSwitcher />
         </div>
 
         <p className="mt-5 text-xs font-semibold uppercase tracking-widest text-neu-sub">
