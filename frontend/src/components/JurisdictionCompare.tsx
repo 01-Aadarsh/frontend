@@ -77,8 +77,8 @@ export function JurisdictionCompare({
           }`}
         >
           <span
-            className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-neuSm transition-transform ${
-              open ? "translate-x-[18px]" : "translate-x-0.5"
+            className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-neuSm transition-[left] duration-150 ${
+              open ? "left-[18px]" : "left-0.5"
             }`}
           />
         </span>
