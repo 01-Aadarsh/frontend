@@ -1,32 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { health } from "@/lib/api";
 import type { Jurisdiction } from "@/lib/types";
 import { LogoBadge } from "@/components/brand/LogoBadge";
+import { JurisdictionCompare } from "./JurisdictionCompare";
 
 export function Header({
   jurisdiction,
   category,
+  lastQuestion,
   onChangeContext,
 }: {
   jurisdiction: Jurisdiction;
   category: string | null;
+  lastQuestion: string | null;
   onChangeContext: () => void;
 }) {
-  const [backendUp, setBackendUp] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    const check = () => health().then((ok) => !cancelled && setBackendUp(ok));
-    check();
-    const interval = setInterval(check, 20_000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, []);
-
   return (
     <div className="shrink-0 border-b border-neu-bg">
       <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -60,23 +48,12 @@ export function Header({
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-1.5 text-xs text-neu-sub">
-          <span
-            className={`h-2 w-2 rounded-full ${
-              backendUp === null
-                ? "bg-neu-bg"
-                : backendUp
-                  ? "bg-emerald-500"
-                  : "bg-red-400"
-            }`}
+        <div className="ml-auto flex shrink-0 items-center">
+          <JurisdictionCompare
+            jurisdiction={jurisdiction}
+            category={category}
+            lastQuestion={lastQuestion}
           />
-          <span className="sr-only sm:not-sr-only">
-            {backendUp === null
-              ? "Checking backend..."
-              : backendUp
-                ? "Backend online"
-                : "Backend unreachable"}
-          </span>
         </div>
       </header>
 

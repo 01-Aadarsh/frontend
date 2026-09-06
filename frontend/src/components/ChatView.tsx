@@ -86,6 +86,9 @@ export function ChatView({
     }
   }
 
+  const lastQuestion =
+    [...messages].reverse().find((m) => m.role === "user")?.content ?? null;
+
   return (
     <div className={`relative flex h-screen flex-col overflow-hidden p-3 sm:p-6 ${PAGE_BG}`}>
       <LeafField />
@@ -94,6 +97,7 @@ export function ChatView({
         <Header
           jurisdiction={jurisdiction}
           category={category}
+          lastQuestion={lastQuestion}
           onChangeContext={onChangeContext}
         />
 

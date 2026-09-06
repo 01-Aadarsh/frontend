@@ -173,7 +173,12 @@ export function IntakeScreen({
                 <IconFlask />
               </IconBadge>
               <div>
-                <p className="text-sm font-semibold text-neu-text">Formulation category</p>
+                <p className="text-sm font-semibold text-neu-text">
+                  Formulation category{" "}
+                  <span className="text-xs font-normal text-neu-sub/60">
+                    — if you don&apos;t know the category, start without it
+                  </span>
+                </p>
                 <p className="text-xs text-neu-sub">Optional</p>
               </div>
             </div>
