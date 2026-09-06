@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ApiError, ClientTimeoutError, query } from "@/lib/api";
 import type { Jurisdiction } from "@/lib/types";
 import { THEME } from "@/lib/theme";
@@ -9,7 +9,9 @@ import { THEME } from "@/lib/theme";
  * question against the OTHER jurisdiction's corpus and shows the answer in a
  * popup, so the user can see how national/international treatment differs
  * for whatever they're currently discussing -- without changing the actual
- * conversation's jurisdiction. */
+ * conversation's jurisdiction. Stays reactive while open: asking a new
+ * question re-fetches automatically instead of leaving the popup stuck on
+ * whatever was last asked. */
 export function JurisdictionCompare({
   jurisdiction,
   category,
@@ -24,37 +26,41 @@ export function JurisdictionCompare({
   const [answer, setAnswer] = useState<{ text: string; abstained: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [askedFor, setAskedFor] = useState<string | null>(null);
+  const requestId = useRef(0);
 
   const otherJurisdiction: Jurisdiction =
     jurisdiction === "national" ? "international" : "national";
   const otherLabel = otherJurisdiction === "national" ? "National" : "International";
 
-  async function toggle() {
-    const opening = !open;
-    setOpen(opening);
-    if (!opening || !lastQuestion || askedFor === lastQuestion) return;
+  useEffect(() => {
+    if (!open || !lastQuestion || askedFor === lastQuestion) return;
 
+    const thisRequest = ++requestId.current;
     setLoading(true);
     setError(null);
     setAnswer(null);
-    try {
-      const res = await query({
-        question: lastQuestion,
-        jurisdiction: otherJurisdiction,
-        category,
+
+    query({ question: lastQuestion, jurisdiction: otherJurisdiction, category })
+      .then((res) => {
+        if (requestId.current !== thisRequest) return; // superseded by a newer question
+        setAnswer({ text: res.answer, abstained: res.flags.abstained });
+        setAskedFor(lastQuestion);
+      })
+      .catch((err) => {
+        if (requestId.current !== thisRequest) return;
+        setError(
+          err instanceof ApiError || err instanceof ClientTimeoutError
+            ? err.message
+            : "Something went wrong talking to the backend."
+        );
+      })
+      .finally(() => {
+        if (requestId.current === thisRequest) setLoading(false);
       });
-      setAnswer({ text: res.answer, abstained: res.flags.abstained });
-      setAskedFor(lastQuestion);
-    } catch (err) {
-      setError(
-        err instanceof ApiError || err instanceof ClientTimeoutError
-          ? err.message
-          : "Something went wrong talking to the backend."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
+    // otherJurisdiction/category intentionally excluded: they're derived from
+    // jurisdiction/category props already in the dependency array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, lastQuestion, jurisdiction, category, askedFor]);
 
   return (
     <div className="relative">
@@ -62,12 +68,10 @@ export function JurisdictionCompare({
         type="button"
         role="switch"
         aria-checked={open}
-        onClick={toggle}
+        onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5"
       >
-        <span className="hidden text-xs font-medium text-neu-sub sm:inline">
-          {otherLabel} view
-        </span>
+        <span className="text-xs font-medium text-neu-sub">{otherLabel} view</span>
         <span
           className={`relative h-5 w-9 shrink-0 rounded-full shadow-neuInset transition-colors ${
             open ? THEME.rose.fill : "bg-neu-bg"
