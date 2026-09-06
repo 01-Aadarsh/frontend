@@ -2,6 +2,7 @@
 
 import type { Jurisdiction } from "@/lib/types";
 import { LogoBadge } from "@/components/brand/LogoBadge";
+import { FontSizeControl } from "@/components/brand/FontSizeControl";
 import { JurisdictionCompare } from "./JurisdictionCompare";
 
 export function Header({
@@ -48,7 +49,8 @@ export function Header({
           </div>
         </div>
 
-        <div className="ml-auto flex shrink-0 items-center">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          <FontSizeControl />
           <JurisdictionCompare
             jurisdiction={jurisdiction}
             category={category}

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ApiError, ClientTimeoutError, query } from "@/lib/api";
 import type { Jurisdiction } from "@/lib/types";
-import { THEME } from "@/lib/theme";
 
 /** Toggle switch in the chat header: flipping it fetches the same last
  * question against the OTHER jurisdiction's corpus and shows the answer in a
@@ -74,7 +73,7 @@ export function JurisdictionCompare({
         <span className="text-xs font-medium text-neu-sub">{otherLabel} view</span>
         <span
           className={`relative h-5 w-9 shrink-0 rounded-full shadow-neuInset transition-colors ${
-            open ? THEME.rose.fill : "bg-neu-bg"
+            open ? "bg-rose-500" : "bg-neu-bg"
           }`}
         >
           <span
