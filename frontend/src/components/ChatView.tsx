@@ -11,6 +11,7 @@ import type {
 import { PAGE_BG } from "@/lib/theme";
 import { LeafField } from "@/components/brand/LeafField";
 import { Header } from "./Header";
+import { ChatComposer } from "./ChatComposer";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { LoadingState } from "./LoadingState";
 import { SourceViewer } from "./SourceViewer";
@@ -98,29 +99,48 @@ export function ChatView({
 
         <div className="flex min-h-0 flex-1">
           <div className="flex min-h-0 flex-1 flex-col">
-            <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto px-4 py-6 sm:px-8"
-            >
-              <div className="mx-auto flex w-full max-w-2xl flex-col space-y-4">
-                {messages.length === 0 && (
-                  <div className="mx-auto max-w-md rounded-2xl border border-dashed border-neu-bg p-6 text-center text-sm text-neu-sub">
+            {messages.length === 0 ? (
+              <div className="flex flex-1 items-center justify-center px-4">
+                <div className="w-full max-w-2xl text-center">
+                  <p className="text-lg font-semibold text-neu-text">
                     Ask about IP, ABS, or regulatory posture for an Ayurvedic
-                    formulation — the answer will cite exactly which document
-                    and page it came from, or say plainly that it couldn&apos;t
-                    find one.
+                    formulation
+                  </p>
+                  <p className="mx-auto mt-1.5 max-w-md text-sm text-neu-sub">
+                    The answer will cite exactly which document and page it
+                    came from, or say plainly that it couldn&apos;t find one.
+                  </p>
+                  <div className="mt-6">
+                    <ChatComposer
+                      input={input}
+                      onInputChange={setInput}
+                      onSend={handleSend}
+                      sending={sending}
+                    />
                   </div>
-                )}
-                {messages.map((m) => (
-                  <ChatMessageBubble
-                    key={m.id}
-                    message={m}
-                    onViewCitation={setActiveCitation}
-                  />
-                ))}
-                {sending && <LoadingState />}
+                  <p className="mt-2 text-[11px] text-neu-sub">
+                    Answers can take up to ~60s — grounded, cited responses
+                    are slower than a guess.
+                  </p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto px-4 py-6 sm:px-8"
+              >
+                <div className="mx-auto flex w-full max-w-2xl flex-col space-y-4">
+                  {messages.map((m) => (
+                    <ChatMessageBubble
+                      key={m.id}
+                      message={m}
+                      onViewCitation={setActiveCitation}
+                    />
+                  ))}
+                  {sending && <LoadingState />}
+                </div>
+              </div>
+            )}
           </div>
 
           <aside className="hidden w-[420px] shrink-0 border-l border-neu-bg bg-neu-surface lg:block">
@@ -131,40 +151,22 @@ export function ChatView({
           </aside>
         </div>
 
-        <div className="shrink-0 border-t border-neu-bg px-4 py-3 sm:px-8">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSend();
-            }}
-            className="mx-auto flex w-full max-w-2xl items-end gap-2"
-          >
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              rows={1}
-              placeholder="Ask a question..."
-              className="max-h-40 flex-1 resize-none rounded-2xl bg-neu-bg px-4 py-2.5 text-sm text-neu-text shadow-neuInset outline-none placeholder:text-neu-sub"
-            />
-            <button
-              type="submit"
-              disabled={sending || !input.trim()}
-              className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-300 to-orange-500 px-4 py-2.5 text-sm font-semibold text-white shadow-neuSm transition disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Send
-            </button>
-          </form>
-          <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] text-neu-sub">
-            Answers can take up to ~60s — grounded, cited responses are
-            slower than a guess.
-          </p>
-        </div>
+        {messages.length > 0 && (
+          <div className="shrink-0 border-t border-neu-bg px-4 py-3 sm:px-8">
+            <div className="mx-auto w-full max-w-2xl">
+              <ChatComposer
+                input={input}
+                onInputChange={setInput}
+                onSend={handleSend}
+                sending={sending}
+              />
+            </div>
+            <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] text-neu-sub">
+              Answers can take up to ~60s — grounded, cited responses are
+              slower than a guess.
+            </p>
+          </div>
+        )}
       </div>
 
       {activeCitation && (
