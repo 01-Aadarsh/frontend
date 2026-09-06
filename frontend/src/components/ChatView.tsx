@@ -121,41 +121,6 @@ export function ChatView({
                 {sending && <LoadingState />}
               </div>
             </div>
-
-            <div className="border-t border-neu-bg px-4 py-3 sm:px-8">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
-                }}
-                className="mx-auto flex w-full max-w-2xl items-end gap-2"
-              >
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSend();
-                    }
-                  }}
-                  rows={1}
-                  placeholder="Ask a question..."
-                  className="max-h-40 flex-1 resize-none rounded-2xl bg-neu-bg px-4 py-2.5 text-sm text-neu-text shadow-neuInset outline-none placeholder:text-neu-sub"
-                />
-                <button
-                  type="submit"
-                  disabled={sending || !input.trim()}
-                  className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-300 to-orange-500 px-4 py-2.5 text-sm font-semibold text-white shadow-neuSm transition disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Send
-                </button>
-              </form>
-              <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] text-neu-sub">
-                Answers can take up to ~60s — grounded, cited responses are
-                slower than a guess.
-              </p>
-            </div>
           </div>
 
           <aside className="hidden w-[420px] shrink-0 border-l border-neu-bg bg-neu-surface lg:block">
@@ -164,6 +129,41 @@ export function ChatView({
               onClose={() => setActiveCitation(null)}
             />
           </aside>
+        </div>
+
+        <div className="shrink-0 border-t border-neu-bg px-4 py-3 sm:px-8">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}
+            className="mx-auto flex w-full max-w-2xl items-end gap-2"
+          >
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+              rows={1}
+              placeholder="Ask a question..."
+              className="max-h-40 flex-1 resize-none rounded-2xl bg-neu-bg px-4 py-2.5 text-sm text-neu-text shadow-neuInset outline-none placeholder:text-neu-sub"
+            />
+            <button
+              type="submit"
+              disabled={sending || !input.trim()}
+              className="shrink-0 rounded-2xl bg-gradient-to-r from-amber-300 to-orange-500 px-4 py-2.5 text-sm font-semibold text-white shadow-neuSm transition disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Send
+            </button>
+          </form>
+          <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] text-neu-sub">
+            Answers can take up to ~60s — grounded, cited responses are
+            slower than a guess.
+          </p>
         </div>
       </div>
 

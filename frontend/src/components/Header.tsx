@@ -31,7 +31,6 @@ export function Header({
     <div className="shrink-0 border-b border-neu-bg">
       <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
-          <LogoBadge className="h-10 w-10 rounded-xl" iconClassName="h-5 w-5" />
           <button
             type="button"
             onClick={onChangeContext}
@@ -39,6 +38,7 @@ export function Header({
           >
             <span aria-hidden>←</span> Back to setup
           </button>
+          <LogoBadge className="h-10 w-10 rounded-xl" iconClassName="h-5 w-5" />
 
           <div className="min-w-0 border-l border-neu-bg pl-3">
             <p className="truncate text-base font-bold text-neu-text">
