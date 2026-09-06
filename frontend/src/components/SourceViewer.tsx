@@ -12,7 +12,7 @@ export function SourceViewer({
 }) {
   if (!citation) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-2 p-8 text-center text-ink/40">
+      <div className="flex h-full flex-col items-center justify-center gap-2 p-8 text-center text-neu-sub">
         <p className="text-sm font-medium">No source open</p>
         <p className="max-w-xs text-xs">
           Click &quot;View source PDF&quot; on any citation to open the exact
@@ -24,19 +24,19 @@ export function SourceViewer({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between gap-2 border-b border-clay-200 bg-white px-4 py-3">
+      <div className="flex items-center justify-between gap-2 border-b border-neu-bg bg-neu-surface px-4 py-3">
         <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-ink">
+          <p className="truncate text-sm font-medium text-neu-text">
             {citation.source_file}
           </p>
-          <p className="text-xs text-ink/50">
+          <p className="text-xs text-neu-sub">
             Page {citation.page_number} · {citation.section_heading}
           </p>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="shrink-0 rounded-full p-1.5 text-ink/40 hover:bg-clay-50 hover:text-ink/70"
+          className="shrink-0 rounded-full p-1.5 text-neu-sub hover:bg-neu-bg hover:text-neu-text"
           aria-label="Close source viewer"
         >
           ✕
@@ -46,7 +46,7 @@ export function SourceViewer({
         key={citation.chunk_id}
         title={`${citation.source_file}, page ${citation.page_number}`}
         src={sourceUrl(citation.source_file, citation.page_number)}
-        className="h-full w-full flex-1 bg-clay-50"
+        className="h-full w-full flex-1 bg-neu-bg/40"
       />
     </div>
   );

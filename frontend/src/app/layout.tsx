@@ -13,7 +13,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="bg-paper text-ink antialiased">
+      <body className="bg-neu-bg text-neu-text antialiased">
         <FontScaleSync />
         {children}
       </body>

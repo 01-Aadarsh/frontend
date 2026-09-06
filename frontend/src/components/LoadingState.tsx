@@ -24,11 +24,11 @@ export function LoadingState() {
   }, []);
 
   return (
-    <div className="flex max-w-[85%] animate-fadeIn items-start gap-3 rounded-2xl border border-forest-100 bg-white px-4 py-3 shadow-panel">
-      <span className="mt-1 flex h-2.5 w-2.5 shrink-0 rounded-full bg-forest-500 animate-pulseSoft" />
+    <div className="flex max-w-[85%] animate-fadeIn items-start gap-3 rounded-2xl border border-neu-bg bg-white/70 px-4 py-3 shadow-neuSm">
+      <span className="mt-1 flex h-2.5 w-2.5 shrink-0 rounded-full bg-rose-400 animate-pulseSoft" />
       <div className="space-y-1">
-        <p className="text-sm text-ink/80">{PHRASES[phraseIndex]}</p>
-        <p className="text-xs tabular-nums text-ink/40">
+        <p className="text-sm text-neu-text/80">{PHRASES[phraseIndex]}</p>
+        <p className="text-xs tabular-nums text-neu-sub">
           {elapsed}s elapsed
           {elapsed > 45 ? " — in-scope questions can take up to ~60s" : ""}
         </p>

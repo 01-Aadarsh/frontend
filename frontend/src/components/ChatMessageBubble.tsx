@@ -22,10 +22,10 @@ export function ChatMessageBubble({
 
   return (
     <div
-      className={`max-w-[85%] animate-fadeIn rounded-2xl px-4 py-3 shadow-panel ${
+      className={`max-w-[85%] animate-fadeIn rounded-2xl px-4 py-3 shadow-neuSm ${
         isUser
-          ? "ml-auto border border-forest-600 bg-forest-600 text-white"
-          : "border border-clay-200 bg-white text-ink"
+          ? "ml-auto bg-gradient-to-r from-rose-300 to-orange-400 text-white"
+          : "border border-neu-bg bg-white/70 text-neu-text"
       }`}
     >
       <p className="whitespace-pre-wrap text-sm leading-relaxed">
@@ -38,8 +38,8 @@ export function ChatMessageBubble({
         !message.flags?.abstained &&
         message.citations &&
         message.citations.length > 0 && (
-          <div className="mt-3 space-y-2 border-t border-clay-200 pt-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-ink/40">
+          <div className="mt-3 space-y-2 border-t border-neu-bg pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-neu-sub">
               Sources
             </p>
             {message.citations.map((c, i) => (

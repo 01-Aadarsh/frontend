@@ -1,10 +1,10 @@
 export function ConfidenceBadge({ confidence }: { confidence: number }) {
   const tone =
     confidence >= 75
-      ? "bg-forest-50 text-forest-700 border-forest-100"
+      ? "bg-[#EDF2E2] text-[#5B6F45] border-[#B7C79E]/60"
       : confidence >= 45
-        ? "bg-saffron-100 text-saffron-600 border-saffron-300/60"
-        : "bg-clay-50 text-ink/60 border-clay-200";
+        ? "bg-amber-100 text-amber-700 border-amber-300/60"
+        : "bg-neu-bg/60 text-neu-sub border-neu-bg";
 
   return (
     <span
