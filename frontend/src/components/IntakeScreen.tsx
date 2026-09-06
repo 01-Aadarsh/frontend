@@ -430,13 +430,13 @@ export function IntakeScreen({
             </div>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             {FORMULATION_CATEGORIES.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => setCategory((prev) => (prev === c ? null : c))}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:scale-105 ${
+                className={`w-full rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:scale-105 sm:w-auto ${
                   category === c
                     ? `scale-105 text-white shadow-neuSm ${THEME.sage.fill}`
                     : "bg-neu-bg text-neu-sub shadow-neuInset"
