@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { health } from "@/lib/api";
 import type { Jurisdiction } from "@/lib/types";
 import { LogoBadge } from "@/components/brand/LogoBadge";
-import { FontSizeControl } from "@/components/brand/FontSizeControl";
-import { LanguageSwitcher } from "@/components/brand/LanguageSwitcher";
 
 export function Header({
   jurisdiction,
@@ -44,7 +42,10 @@ export function Header({
 
           <div className="min-w-0 border-l border-neu-bg pl-3">
             <p className="truncate text-base font-bold text-neu-text">
-              IP-SAKTI Sahayak
+              IP-SAKTI Sahayak{" "}
+              <span className="text-xs font-semibold text-neu-sub">
+                — An Initiative under Ministry of AYUSH
+              </span>
             </p>
             <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-neu-sub">
               <span className="rounded-full bg-rose-100 px-2 py-0.5 font-medium text-rose-600">
@@ -59,27 +60,23 @@ export function Header({
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <FontSizeControl />
-          <LanguageSwitcher />
-          <div className="flex items-center gap-1.5 text-xs text-neu-sub">
-            <span
-              className={`h-2 w-2 rounded-full ${
-                backendUp === null
-                  ? "bg-neu-bg"
-                  : backendUp
-                    ? "bg-emerald-500"
-                    : "bg-red-400"
-              }`}
-            />
-            <span className="sr-only sm:not-sr-only">
-              {backendUp === null
-                ? "Checking backend..."
+        <div className="flex shrink-0 items-center gap-1.5 text-xs text-neu-sub">
+          <span
+            className={`h-2 w-2 rounded-full ${
+              backendUp === null
+                ? "bg-neu-bg"
                 : backendUp
-                  ? "Backend online"
-                  : "Backend unreachable"}
-            </span>
-          </div>
+                  ? "bg-emerald-500"
+                  : "bg-red-400"
+            }`}
+          />
+          <span className="sr-only sm:not-sr-only">
+            {backendUp === null
+              ? "Checking backend..."
+              : backendUp
+                ? "Backend online"
+                : "Backend unreachable"}
+          </span>
         </div>
       </header>
 

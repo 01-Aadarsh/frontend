@@ -10,7 +10,6 @@ import type {
 } from "@/lib/types";
 import { PAGE_BG } from "@/lib/theme";
 import { LeafField } from "@/components/brand/LeafField";
-import { AyushBadge } from "@/components/brand/AyushBadge";
 import { Header } from "./Header";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { LoadingState } from "./LoadingState";
@@ -89,7 +88,6 @@ export function ChatView({
   return (
     <div className={`relative flex h-screen flex-col overflow-hidden p-3 sm:p-6 ${PAGE_BG}`}>
       <LeafField />
-      <AyushBadge />
 
       <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden rounded-[32px] bg-neu-surface shadow-2xl">
         <Header
@@ -102,24 +100,26 @@ export function ChatView({
           <div className="flex min-h-0 flex-1 flex-col">
             <div
               ref={scrollRef}
-              className="flex-1 space-y-4 overflow-y-auto px-4 py-6 sm:px-8"
+              className="flex-1 overflow-y-auto px-4 py-6 sm:px-8"
             >
-              {messages.length === 0 && (
-                <div className="mx-auto max-w-md rounded-2xl border border-dashed border-neu-bg p-6 text-center text-sm text-neu-sub">
-                  Ask about IP, ABS, or regulatory posture for an Ayurvedic
-                  formulation — the answer will cite exactly which document and
-                  page it came from, or say plainly that it couldn&apos;t find
-                  one.
-                </div>
-              )}
-              {messages.map((m) => (
-                <ChatMessageBubble
-                  key={m.id}
-                  message={m}
-                  onViewCitation={setActiveCitation}
-                />
-              ))}
-              {sending && <LoadingState />}
+              <div className="mx-auto flex w-full max-w-2xl flex-col space-y-4">
+                {messages.length === 0 && (
+                  <div className="mx-auto max-w-md rounded-2xl border border-dashed border-neu-bg p-6 text-center text-sm text-neu-sub">
+                    Ask about IP, ABS, or regulatory posture for an Ayurvedic
+                    formulation — the answer will cite exactly which document
+                    and page it came from, or say plainly that it couldn&apos;t
+                    find one.
+                  </div>
+                )}
+                {messages.map((m) => (
+                  <ChatMessageBubble
+                    key={m.id}
+                    message={m}
+                    onViewCitation={setActiveCitation}
+                  />
+                ))}
+                {sending && <LoadingState />}
+              </div>
             </div>
 
             <div className="border-t border-neu-bg px-4 py-3 sm:px-8">
@@ -128,7 +128,7 @@ export function ChatView({
                   e.preventDefault();
                   handleSend();
                 }}
-                className="flex items-end gap-2"
+                className="mx-auto flex w-full max-w-2xl items-end gap-2"
               >
                 <textarea
                   value={input}
@@ -151,7 +151,7 @@ export function ChatView({
                   Send
                 </button>
               </form>
-              <p className="mt-1.5 text-center text-[11px] text-neu-sub">
+              <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] text-neu-sub">
                 Answers can take up to ~60s — grounded, cited responses are
                 slower than a guess.
               </p>
