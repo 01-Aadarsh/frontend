@@ -10,11 +10,15 @@ import type {
 } from "@/lib/types";
 import { PAGE_BG } from "@/lib/theme";
 import { LeafField } from "@/components/brand/LeafField";
+import { useLanguage } from "@/hooks/useLanguage";
+import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import { Header } from "./Header";
 import { ChatComposer } from "./ChatComposer";
 import { ChatMessageBubble } from "./ChatMessageBubble";
 import { LoadingState } from "./LoadingState";
 import { SourceViewer } from "./SourceViewer";
+import { MobileSourceSheet } from "./MobileSourceSheet";
 
 let idCounter = 0;
 const nextId = () => `msg-${++idCounter}-${Date.now()}`;
@@ -32,7 +36,24 @@ export function ChatView({
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [activeCitation, setActiveCitation] = useState<Citation | null>(null);
+  const [voiceModeOn, setVoiceModeOn] = useState(false);
+  const [speakingId, setSpeakingId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { language, setLanguage } = useLanguage();
+  const tts = useSpeechSynthesis();
+  const recognition = useSpeechRecognition();
+
+  // Mirrors `voiceModeOn` so the tts.speak() completion callback (fired long
+  // after this render) always sees the latest value instead of a stale one
+  // captured in its closure at send-time.
+  const voiceModeRef = useRef(false);
+  const setVoiceMode = (on: boolean) => {
+    voiceModeRef.current = on;
+    setVoiceModeOn(on);
+  };
+  // True while the text currently in the box came from dictation rather than
+  // typing — sending it is what turns on the speak-then-relisten loop.
+  const inputFromVoiceRef = useRef(false);
 
   const scrollToBottom = () => {
     requestAnimationFrame(() => {
@@ -43,9 +64,21 @@ export function ChatView({
     });
   };
 
+  function startListening() {
+    setInput("");
+    inputFromVoiceRef.current = false;
+    recognition.start(language.bcp47, (transcript) => {
+      inputFromVoiceRef.current = true;
+      setInput(transcript);
+    });
+  }
+
   async function handleSend() {
     const question = input.trim();
     if (!question || sending) return;
+
+    const voiceOriginated = inputFromVoiceRef.current;
+    inputFromVoiceRef.current = false;
 
     const history: ChatTurn[] = messages
       .filter((m) => !m.error)
@@ -61,16 +94,30 @@ export function ChatView({
 
     try {
       const res = await query({ question, history, jurisdiction, category });
+      const assistantId = nextId();
       setMessages((prev) => [
         ...prev,
         {
-          id: nextId(),
+          id: assistantId,
           role: "assistant",
           content: res.answer,
           citations: res.citations,
           flags: res.flags,
         },
       ]);
+
+      if (voiceOriginated) setVoiceMode(true);
+
+      if (voiceModeRef.current) {
+        setSpeakingId(assistantId);
+        tts.speak(res.answer, language.bcp47, () => {
+          setSpeakingId(null);
+          // Still on when this particular answer finishes speaking (neither
+          // the speaker nor the mic was tapped to cancel meanwhile) -> keep
+          // the hands-free loop going by listening for the next question.
+          if (voiceModeRef.current) startListening();
+        });
+      }
     } catch (err) {
       const message =
         err instanceof ApiError || err instanceof ClientTimeoutError
@@ -88,99 +135,153 @@ export function ChatView({
 
   const lastQuestion =
     [...messages].reverse().find((m) => m.role === "user")?.content ?? null;
+  const hasMessages = messages.length > 0;
+
+  /** Tapping the speaker while it's doing anything (reading an answer, or
+   * armed to read/relisten) stops the whole voice loop, per spec. Tapping it
+   * while off just enables read-aloud for future answers (no relisten). */
+  function toggleVoiceMode() {
+    if (voiceModeOn) {
+      setVoiceMode(false);
+      tts.stop();
+      setSpeakingId(null);
+      if (recognition.listening) recognition.stop();
+    } else {
+      setVoiceMode(true);
+    }
+  }
+
+  /** Tapping the mic while it's listening cancels that listen AND the whole
+   * voice loop, per spec — otherwise it starts a fresh one-off dictation. */
+  function toggleMic() {
+    if (recognition.listening) {
+      recognition.stop();
+      setVoiceMode(false);
+      tts.stop();
+      setSpeakingId(null);
+      return;
+    }
+    startListening();
+  }
+
+  function handleToggleSpeak(message: ConversationMessage) {
+    if (speakingId === message.id) {
+      tts.stop();
+      setSpeakingId(null);
+      return;
+    }
+    setSpeakingId(message.id);
+    tts.speak(message.content, language.bcp47, () => setSpeakingId(null));
+  }
 
   return (
-    <div className={`relative flex h-screen flex-col overflow-hidden p-3 sm:p-6 ${PAGE_BG}`}>
+    <div className={`relative flex h-screen flex-col overflow-hidden p-0 sm:p-6 ${PAGE_BG}`}>
       <LeafField />
 
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden rounded-[32px] bg-neu-surface shadow-2xl">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden rounded-none bg-neu-bg shadow-2xl sm:rounded-[32px]">
         <Header
           jurisdiction={jurisdiction}
           category={category}
           lastQuestion={lastQuestion}
           onChangeContext={onChangeContext}
+          language={language}
+          onLanguageChange={setLanguage}
         />
 
-        <div className="flex min-h-0 flex-1">
-          <div className="flex min-h-0 flex-1 flex-col">
-            {messages.length === 0 ? (
-              <div className="flex flex-1 items-center justify-center px-4">
-                <div className="w-full max-w-2xl text-center">
-                  <p className="text-lg font-semibold text-neu-text">
-                    Ask about IP, ABS, or regulatory posture for an Ayurvedic
-                    formulation
-                  </p>
-                  <p className="mx-auto mt-1.5 max-w-md text-sm text-neu-sub">
-                    The answer will cite exactly which document and page it
-                    came from, or say plainly that it couldn&apos;t find one.
-                  </p>
-                  <div className="mt-6">
-                    <ChatComposer
-                      input={input}
-                      onInputChange={setInput}
-                      onSend={handleSend}
-                      sending={sending}
-                    />
-                  </div>
-                  <p className="mt-2 text-[11px] text-neu-sub">
-                    Answers can take up to ~60s — grounded, cited responses
-                    are slower than a guess.
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div
-                ref={scrollRef}
-                className="flex-1 overflow-y-auto px-4 py-6 sm:px-8"
-              >
+        <div className="flex min-h-0 flex-1 gap-3 p-3 sm:gap-4 sm:p-4">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl bg-neu-surface shadow-neu">
+            {/* Doubles as the top spacer (empty, flex-1) before the first
+                message and the scrollable message list (still flex-1) after
+                — its height never changes, so nothing needs to animate here. */}
+            <div
+              ref={scrollRef}
+              className={`min-h-0 flex-1 overflow-y-auto px-4 sm:px-8 ${hasMessages ? "py-6" : ""}`}
+            >
+              {hasMessages && (
                 <div className="mx-auto flex w-full max-w-2xl flex-col space-y-4">
                   {messages.map((m) => (
                     <ChatMessageBubble
                       key={m.id}
                       message={m}
                       onViewCitation={setActiveCitation}
+                      speaking={speakingId === m.id}
+                      onToggleSpeak={() => handleToggleSpeak(m)}
+                      speechSupported={tts.supported}
                     />
                   ))}
                   {sending && <LoadingState />}
                 </div>
+              )}
+            </div>
+
+            <div
+              className={`flex shrink-0 flex-col items-center px-4 sm:px-8 ${
+                hasMessages ? "border-t border-neu-bg py-3" : "pb-6"
+              }`}
+            >
+              <div
+                className={`w-full max-w-2xl overflow-hidden text-center transition-all duration-500 ease-out ${
+                  hasMessages ? "max-h-0 opacity-0" : "mb-6 max-h-40 opacity-100"
+                }`}
+              >
+                <p className="text-lg font-semibold text-neu-text">
+                  Ask about IP, ABS, or regulatory posture for an Ayurvedic
+                  formulation
+                </p>
+                <p className="mx-auto mt-1.5 max-w-md text-sm text-neu-sub">
+                  The answer will cite exactly which document and page it came
+                  from, or say plainly that it couldn&apos;t find one.
+                </p>
               </div>
-            )}
+
+              <div className="w-full max-w-2xl">
+                <ChatComposer
+                  input={input}
+                  onInputChange={(v) => {
+                    inputFromVoiceRef.current = false;
+                    setInput(v);
+                  }}
+                  onSend={handleSend}
+                  sending={sending}
+                  voiceModeOn={voiceModeOn}
+                  onToggleVoiceMode={toggleVoiceMode}
+                  ttsSupported={tts.supported}
+                  speaking={tts.speaking}
+                  listening={recognition.listening}
+                  onToggleMic={toggleMic}
+                  micSupported={recognition.supported}
+                />
+              </div>
+
+              <p className="mt-2 max-w-2xl text-center text-[11px] text-neu-sub">
+                Answers can take up to ~60s — grounded, cited responses are
+                slower than a guess.
+              </p>
+            </div>
+
+            {/* Balances the top spacer to keep the composer centered before
+                the first message; smoothly collapses to 0 once one exists,
+                sliding the composer down to sit flush at the bottom. */}
+            <div
+              className={`transition-[flex-grow] duration-500 ease-in-out ${
+                hasMessages ? "flex-grow-0" : "flex-1"
+              }`}
+            />
           </div>
 
-          <aside className="hidden w-[420px] shrink-0 border-l border-neu-bg bg-neu-surface lg:block">
+          <aside className="hidden w-[360px] shrink-0 overflow-hidden rounded-3xl bg-neu-surface shadow-neu lg:block xl:w-[420px]">
             <SourceViewer
               citation={activeCitation}
               onClose={() => setActiveCitation(null)}
             />
           </aside>
         </div>
-
-        {messages.length > 0 && (
-          <div className="shrink-0 border-t border-neu-bg px-4 py-3 sm:px-8">
-            <div className="mx-auto w-full max-w-2xl">
-              <ChatComposer
-                input={input}
-                onInputChange={setInput}
-                onSend={handleSend}
-                sending={sending}
-              />
-            </div>
-            <p className="mx-auto mt-1.5 max-w-2xl text-center text-[11px] text-neu-sub">
-              Answers can take up to ~60s — grounded, cited responses are
-              slower than a guess.
-            </p>
-          </div>
-        )}
       </div>
 
-      {activeCitation && (
-        <div className="fixed inset-0 z-20 flex flex-col bg-neu-surface lg:hidden">
-          <SourceViewer
-            citation={activeCitation}
-            onClose={() => setActiveCitation(null)}
-          />
-        </div>
-      )}
+      <MobileSourceSheet
+        citation={activeCitation}
+        onClose={() => setActiveCitation(null)}
+      />
     </div>
   );
 }

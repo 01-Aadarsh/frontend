@@ -9,6 +9,7 @@ import { AyushBadge } from "@/components/brand/AyushBadge";
 import { FontSizeControl } from "@/components/brand/FontSizeControl";
 import { LanguageSwitcher } from "@/components/brand/LanguageSwitcher";
 import { SiteFooter } from "@/components/brand/SiteFooter";
+import { AccountRail } from "@/components/brand/AccountRail";
 
 function IconScale() {
   return (
@@ -97,6 +98,7 @@ export function IntakeScreen({
     <div className={`relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12 ${PAGE_BG}`}>
       <LeafField />
       <AyushBadge />
+      <AccountRail />
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center">
         <div className="w-full rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-12">
           <div className="flex items-start justify-between">

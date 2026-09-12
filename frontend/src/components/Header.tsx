@@ -1,8 +1,10 @@
 "use client";
 
 import type { Jurisdiction } from "@/lib/types";
+import type { LANGUAGES, LanguageCode } from "@/hooks/useLanguage";
 import { LogoBadge } from "@/components/brand/LogoBadge";
 import { FontSizeControl } from "@/components/brand/FontSizeControl";
+import { LanguageSwitcher } from "@/components/brand/LanguageSwitcher";
 import { JurisdictionCompare } from "./JurisdictionCompare";
 
 export function Header({
@@ -10,14 +12,18 @@ export function Header({
   category,
   lastQuestion,
   onChangeContext,
+  language,
+  onLanguageChange,
 }: {
   jurisdiction: Jurisdiction;
   category: string | null;
   lastQuestion: string | null;
   onChangeContext: () => void;
+  language: (typeof LANGUAGES)[number];
+  onLanguageChange: (code: LanguageCode) => void;
 }) {
   return (
-    <div className="shrink-0 border-b border-neu-bg">
+    <div className="m-3 mb-0 shrink-0 overflow-hidden rounded-3xl bg-neu-surface shadow-neu sm:m-4 sm:mb-0">
       <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <button
@@ -49,8 +55,9 @@ export function Header({
           </div>
         </div>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2">
+        <div className="ml-auto flex shrink-0 flex-wrap items-center justify-end gap-2">
           <FontSizeControl />
+          <LanguageSwitcher language={language} onChange={onLanguageChange} />
           <JurisdictionCompare
             jurisdiction={jurisdiction}
             category={category}

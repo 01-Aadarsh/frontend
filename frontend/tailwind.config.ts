@@ -58,10 +58,20 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(4px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        glowRose: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(244,63,94,0.55)" },
+          "50%": { boxShadow: "0 0 0 7px rgba(244,63,94,0)" },
+        },
+        glowAmber: {
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(217,119,6,0.55)" },
+          "50%": { boxShadow: "0 0 0 7px rgba(217,119,6,0)" },
+        },
       },
       animation: {
         pulseSoft: "pulseSoft 1.8s ease-in-out infinite",
         fadeIn: "fadeIn 0.25s ease-out",
+        glowRose: "glowRose 1.4s ease-in-out infinite",
+        glowAmber: "glowAmber 1.4s ease-in-out infinite",
       },
     },
   },

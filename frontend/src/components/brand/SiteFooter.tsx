@@ -35,29 +35,6 @@ export function SiteFooter() {
         <button type="button" onClick={toggleWhy} className={LINK_CLASSES}>
           Why use us?
         </button>
-        <span aria-hidden className="text-white/40">
-          ·
-        </span>
-        <a href="#" className={LINK_CLASSES}>
-          Policy details
-        </a>
-        <span aria-hidden className="text-white/40">
-          ·
-        </span>
-        <a href="#" className={LINK_CLASSES}>
-          Contact us
-        </a>
-        <span aria-hidden className="text-white/40">
-          ·
-        </span>
-        <a
-          href="https://github.com/01-Aadarsh/frontend"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={LINK_CLASSES}
-        >
-          View source
-        </a>
       </div>
       <p className="mx-auto mt-3 max-w-md text-[11px] leading-relaxed text-white/50">
         Built for Smart India Hackathon 2026 (SIH26045) under the Ministry

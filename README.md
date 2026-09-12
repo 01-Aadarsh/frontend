@@ -15,6 +15,24 @@ If the retrieved documents don't contain the answer, the system says so instead 
 
 [`docs/technical_execution_guide.pdf`](docs/technical_execution_guide.pdf) is the original build plan (narrower than the actual PS in places — this README and `docs/API_CONTRACT.md` are the current source of truth for status).
 
+## Screenshots
+
+Frontend UI only — captured with the dev server running and no backend attached, so the chat screenshot shows an honest "backend unreachable" state rather than a fabricated answer.
+
+| Jurisdiction / category intake | Chat — empty state |
+|---|---|
+| ![Intake screen](docs/screenshots/intake-screen.png) | ![Chat empty state](docs/screenshots/chat-idle.png) |
+
+| Chat — after sending a question | Login |
+|---|---|
+| ![Chat conversation](docs/screenshots/chat-conversation.png) | ![Login modal](docs/screenshots/auth-modal-login.png) |
+
+| Sign up | Signed-in account menu |
+|---|---|
+| ![Sign up modal](docs/screenshots/auth-modal-signup.png) | ![Account rail hover menu](docs/screenshots/account-rail-hover.png) |
+
+The composer starts centered with no messages yet, and slides down to the bottom (animated, not an instant jump) the moment a question is actually sent — the empty area above then fills with the conversation. The account menu (avatar, login/signup, settings/logout) is a UI shell: there's no auth backend yet, so "signing in" just remembers a name/identifier in the browser until a real backend exists.
+
 ## Pipeline
 
 ```
@@ -32,7 +50,7 @@ Orchestrated as a deterministic LangGraph DAG (not an autonomous agent loop), wi
 ## Status
 
 - **Backend**: ingestion, hybrid retrieval (jurisdiction-filterable), reranking, grounded generation, code-attached citations with confidence scores, LangGraph wiring, FastAPI layer with static source-PDF serving — done, verified live.
-- **Frontend**: Next.js + Tailwind + shadcn, dark console UI — Step 0 intake screen, context-aware chat, split-screen source viewer that opens the exact cited PDF page — done, verified live against the real backend.
+- **Frontend**: Next.js + Tailwind, neu-morphic UI — Step 0 intake screen, context-aware chat, split-screen source viewer that opens the exact cited PDF page (a draggable bottom sheet on mobile/tablet) — done, verified live against the real backend. Also has voice input/output (Web Speech API — dictate a question, hear the answer read back, with a hands-free listen→speak loop), a multilingual switcher (locale wiring only — full answer translation via Bhashini/Sarvam is still open, see below), and a login/signup UI shell (no auth backend yet — session is a local placeholder).
 - **Eval** (`eval/`): 15-case held-out set — see [`eval/scored_results.json`](eval/scored_results.json) for the latest scored run. Headline: 10/11 correctly cited in-scope answers, 4/4 correct abstentions on out-of-scope questions.
 - **Corpus**: 17 documents indexed (~1,480 chunks) — solid national coverage across Patents, GI, Biological Diversity/ABS, clinical-trial rules, and TKDL background; international coverage is currently thin (one WIPO treaty).
 - **Open**: several national Acts still unindexed (Trade Marks, Designs, Copyright, PPV&FR, Drugs and Cosmetics Act itself, Drugs and Magic Remedies Act, FSSAI Ayurveda-Aahar rules), deeper international treaty coverage, multilingual (Bhashini/Sarvam), and the fully-offline demo path (blocked by a known Ollama/CUDA issue on the dev machine — see `backend/generation/llm_client.py`).

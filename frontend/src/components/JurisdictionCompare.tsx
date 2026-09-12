@@ -85,7 +85,7 @@ export function JurisdictionCompare({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-30 mt-2 w-72 rounded-2xl bg-neu-surface p-4 text-left shadow-neu sm:w-80">
+        <div className="absolute right-0 top-full z-30 mt-2 w-72 max-w-[calc(100vw-2rem)] rounded-2xl bg-neu-surface p-4 text-left shadow-neu sm:w-80">
           <p className="text-xs font-bold uppercase tracking-wide text-rose-600">
             How this differs under {otherLabel} rules
           </p>
