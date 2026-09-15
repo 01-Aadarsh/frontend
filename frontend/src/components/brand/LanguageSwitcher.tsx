@@ -49,27 +49,35 @@ export function LanguageSwitcher({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-20 mt-2 w-44 max-w-[calc(100vw-2rem)] rounded-2xl bg-neu-surface p-1.5 shadow-neu">
-          {LANGUAGES.map((l) => (
-            <button
-              key={l.code}
-              type="button"
-              onClick={() => {
-                setLanguage(l.code);
-                setOpen(false);
-              }}
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition-colors ${
-                language.code === l.code ? "bg-neu-bg text-neu-text" : "text-neu-sub hover:bg-neu-bg/60"
-              }`}
-            >
-              {l.label}
-              {language.code === l.code && <span>✓</span>}
-            </button>
-          ))}
-          <p className="mt-1 border-t border-neu-bg px-3 pt-2 text-[10px] leading-snug text-neu-sub">
-            Powered by Bhashini / Sarvam — full answer translation coming soon.
-          </p>
-        </div>
+        <>
+          <button
+            type="button"
+            aria-label="Close language menu"
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-10 cursor-default"
+          />
+          <div className="absolute right-0 top-full z-20 mt-2 w-44 max-w-[calc(100vw-2rem)] rounded-2xl bg-neu-surface p-1.5 shadow-neu">
+            {LANGUAGES.map((l) => (
+              <button
+                key={l.code}
+                type="button"
+                onClick={() => {
+                  setLanguage(l.code);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs font-medium transition-colors ${
+                  language.code === l.code ? "bg-neu-bg text-neu-text" : "text-neu-sub hover:bg-neu-bg/60"
+                }`}
+              >
+                {l.label}
+                {language.code === l.code && <span>✓</span>}
+              </button>
+            ))}
+            <p className="mt-1 border-t border-neu-bg px-3 pt-2 text-[10px] leading-snug text-neu-sub">
+              Powered by Bhashini / Sarvam — full answer translation coming soon.
+            </p>
+          </div>
+        </>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ApiError, ClientTimeoutError, query } from "@/lib/api";
 import type {
   ChatTurn,
@@ -13,6 +14,11 @@ import { LeafField } from "@/components/brand/LeafField";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import {
+  generateSessionId,
+  useChatHistory,
+  type ChatSession,
+} from "@/hooks/useChatHistory";
 import { Header } from "./Header";
 import { ChatComposer } from "./ChatComposer";
 import { ChatMessageBubble } from "./ChatMessageBubble";
@@ -23,15 +29,27 @@ import { MobileSourceSheet } from "./MobileSourceSheet";
 let idCounter = 0;
 const nextId = () => `msg-${++idCounter}-${Date.now()}`;
 
+const TITLE_MAX_LENGTH = 48;
+function titleFromMessages(messages: ConversationMessage[]): string {
+  const firstQuestion = messages.find((m) => m.role === "user")?.content ?? "";
+  if (!firstQuestion) return "New chat";
+  return firstQuestion.length > TITLE_MAX_LENGTH
+    ? `${firstQuestion.slice(0, TITLE_MAX_LENGTH)}…`
+    : firstQuestion;
+}
+
 export function ChatView({
   jurisdiction,
   category,
+  sessionId: initialSessionId,
   onChangeContext,
 }: {
   jurisdiction: Jurisdiction;
   category: string | null;
+  sessionId: string | null;
   onChangeContext: () => void;
 }) {
+  const router = useRouter();
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -42,6 +60,64 @@ export function ChatView({
   const { language, setLanguage } = useLanguage();
   const tts = useSpeechSynthesis();
   const recognition = useSpeechRecognition();
+
+  const { sessions, loaded: historyLoaded, saveSession, deleteSession } = useChatHistory();
+  const sessionIdRef = useRef(initialSessionId ?? generateSessionId());
+  // True once this conversation's starting state is settled — immediately
+  // for a brand-new chat, or after a requested saved session has been
+  // loaded from history — so the autosave effect below never fires with a
+  // still-empty `messages` and clobbers a saved conversation before it has
+  // had a chance to load.
+  const [ready, setReady] = useState(!initialSessionId);
+
+  useEffect(() => {
+    if (ready || !historyLoaded) return;
+    const found = sessions.find((s) => s.id === initialSessionId);
+    if (found) setMessages(found.messages);
+    setReady(true);
+    // Only meant to run once, when history finishes its first load.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [historyLoaded]);
+
+  useEffect(() => {
+    if (!ready || messages.length === 0) return;
+    saveSession({
+      id: sessionIdRef.current,
+      jurisdiction,
+      category,
+      title: titleFromMessages(messages),
+      messages,
+      updatedAt: Date.now(),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, messages, jurisdiction, category]);
+
+  function handleNewChat() {
+    sessionIdRef.current = generateSessionId();
+    setMessages([]);
+    setInput("");
+    setActiveCitation(null);
+    setSpeakingId(null);
+    tts.stop();
+    if (recognition.listening) recognition.stop();
+    setVoiceMode(false);
+    const params = new URLSearchParams({ jurisdiction });
+    if (category) params.set("category", category);
+    router.replace(`/chat?${params.toString()}`);
+  }
+
+  function handleSelectSession(session: ChatSession) {
+    if (session.jurisdiction !== jurisdiction || session.category !== category) {
+      const params = new URLSearchParams({ jurisdiction: session.jurisdiction, session: session.id });
+      if (session.category) params.set("category", session.category);
+      router.push(`/chat?${params.toString()}`);
+      return;
+    }
+    sessionIdRef.current = session.id;
+    setMessages(session.messages);
+    setInput("");
+    setActiveCitation(null);
+  }
 
   // Mirrors `voiceModeOn` so the tts.speak() completion callback (fired long
   // after this render) always sees the latest value instead of a stale one
@@ -186,6 +262,11 @@ export function ChatView({
           onChangeContext={onChangeContext}
           language={language}
           onLanguageChange={setLanguage}
+          onNewChat={handleNewChat}
+          chatSessions={sessions}
+          currentSessionId={sessionIdRef.current}
+          onSelectSession={handleSelectSession}
+          onDeleteSession={deleteSession}
         />
 
         <div className="flex min-h-0 flex-1 gap-3 p-3 sm:gap-4 sm:p-4">

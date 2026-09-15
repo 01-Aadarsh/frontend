@@ -1,4 +1,22 @@
-import { LeafGlyph } from "./LogoBadge";
+function LeafGlyph({ className = "h-6 w-6 text-emerald-400" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <path
+        d="M11 20a7 7 0 0 1-1.2-13.9C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      <path
+        d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 function IndiaFlag() {
   const spokes = Array.from({ length: 24 }, (_, i) => {

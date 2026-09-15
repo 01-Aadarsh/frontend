@@ -1,4 +1,5 @@
 import type { Citation, ConversationMessage } from "@/lib/types";
+import { DISCLAIMER_SHORT } from "@/lib/disclaimer";
 import { CitationCard } from "./CitationCard";
 import { AbstentionBanner } from "./AbstentionBanner";
 
@@ -76,6 +77,12 @@ export function ChatMessageBubble({
           </button>
         )}
       </div>
+
+      {!isUser && (
+        <p className="mt-2 flex items-center gap-1 text-[10px] font-medium text-neu-sub/70">
+          <span aria-hidden>ⓘ</span> {DISCLAIMER_SHORT}
+        </p>
+      )}
 
       {!isUser && message.flags?.abstained && <AbstentionBanner />}
 

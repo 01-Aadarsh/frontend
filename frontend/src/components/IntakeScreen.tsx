@@ -85,8 +85,10 @@ function Dots({ count, activeIndex, theme }: { count: number; activeIndex: numbe
 
 export function IntakeScreen({
   onStart,
+  onBack,
 }: {
   onStart: (jurisdiction: Jurisdiction, category: string | null) => void;
+  onBack: () => void;
 }) {
   const [jurisdiction, setJurisdiction] = useState<Jurisdiction | null>(null);
   const [category, setCategory] = useState<string | null>(null);
@@ -98,7 +100,7 @@ export function IntakeScreen({
     <div className={`relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12 ${PAGE_BG}`}>
       <LeafField />
       <AyushBadge />
-      <AccountRail />
+      <AccountRail onBack={onBack} />
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-center">
         <div className="w-full rounded-[32px] bg-neu-surface p-8 shadow-2xl sm:p-12">
           <div className="flex items-start justify-between">

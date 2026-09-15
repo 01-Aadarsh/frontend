@@ -4,6 +4,11 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthModal } from "@/components/AuthModal";
 
+/** `shadow-neu`'s light-highlight layer is tuned for a light backdrop; on
+ * this component's dark botanical background it reads as a bright glow, so
+ * this dims that highlight instead of using the shared utility. */
+const RAIL_SHADOW = "shadow-[9px_9px_18px_rgba(0,0,0,0.25),-6px_-6px_14px_rgba(255,250,240,0.35)]";
+
 function IconUser() {
   return (
     <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 shrink-0 text-neu-text">
@@ -51,7 +56,7 @@ function IconLogout() {
  * "logging in" just remembers a name/identifier locally (see useAuth)
  * until a real backend exists. Hidden below `lg`, where the intake card
  * leaves no side margin to spare. */
-export function AccountRail() {
+export function AccountRail({ onBack }: { onBack?: () => void } = {}) {
   const { user, login, logout } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -59,9 +64,18 @@ export function AccountRail() {
 
   return (
     <>
-      <div className="fixed left-0 top-1/2 z-20 hidden -translate-y-1/2 lg:block">
+      <div className="fixed left-0 top-6 z-20 hidden flex-col items-start gap-3 lg:flex">
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className={`flex h-14 items-center gap-2 rounded-r-full bg-neu-surface px-5 text-xs font-semibold text-neu-text transition hover:bg-neu-bg ${RAIL_SHADOW}`}
+          >
+            <span aria-hidden>←</span> Back
+          </button>
+        )}
         {user ? (
-          <div className="group flex h-14 w-14 flex-col overflow-hidden rounded-r-full bg-neu-surface shadow-neu transition-all duration-300 ease-out hover:h-44 hover:w-64 hover:rounded-r-[28px]">
+          <div className={`group flex h-14 w-14 flex-col overflow-hidden rounded-r-full bg-neu-surface ${RAIL_SHADOW} transition-all duration-300 ease-out hover:h-44 hover:w-64 hover:rounded-r-[28px]`}>
             <span className="flex h-14 w-14 shrink-0 items-center justify-center">
               <IconUser />
             </span>
@@ -94,7 +108,7 @@ export function AccountRail() {
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className={`flex h-14 items-center overflow-hidden rounded-r-full bg-neu-surface shadow-neu transition-[width] duration-300 ease-out ${
+            className={`flex h-14 items-center overflow-hidden rounded-r-full bg-neu-surface ${RAIL_SHADOW} transition-[width] duration-300 ease-out ${
               guestExpanded ? "w-44" : "w-14"
             }`}
           >

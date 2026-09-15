@@ -377,7 +377,9 @@ export function AuthModal({
           type="submit"
           form={FORM_ID}
           disabled={!canSubmit}
-          className={`absolute inset-x-8 -bottom-9 z-10 rounded-2xl py-3.5 text-sm font-semibold text-white shadow-2xl ring-4 ring-neu-surface transition disabled:cursor-not-allowed disabled:opacity-40 sm:inset-x-10 ${THEME.amber.fill}`}
+          className={`absolute inset-x-8 -bottom-9 z-20 rounded-2xl py-3.5 text-sm font-semibold shadow-2xl ring-4 ring-neu-surface transition disabled:cursor-not-allowed sm:inset-x-10 ${
+            canSubmit ? `text-white ${THEME.amber.fill}` : "bg-neu-bg text-neu-sub"
+          }`}
         >
           {submitLabel}
         </button>

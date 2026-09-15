@@ -14,10 +14,11 @@ function ChatPageContent() {
   const searchParams = useSearchParams();
   const jurisdictionParam = searchParams.get("jurisdiction");
   const category = searchParams.get("category") || null;
+  const sessionParam = searchParams.get("session");
 
   useEffect(() => {
     if (!isJurisdiction(jurisdictionParam)) {
-      router.replace("/");
+      router.replace("/intake");
     }
   }, [jurisdictionParam, router]);
 
@@ -27,9 +28,15 @@ function ChatPageContent() {
 
   return (
     <ChatView
+      // Remounts (dropping all in-memory state) whenever the jurisdiction,
+      // category, or a specific saved session id changes via the URL — the
+      // one path ("New chat"/resuming a same-jurisdiction session) that
+      // updates state directly without navigating skips this deliberately.
+      key={`${jurisdictionParam}-${category ?? ""}-${sessionParam ?? ""}`}
       jurisdiction={jurisdictionParam}
       category={category}
-      onChangeContext={() => router.push("/")}
+      sessionId={sessionParam}
+      onChangeContext={() => router.push("/intake")}
     />
   );
 }

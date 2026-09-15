@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ApiError, ClientTimeoutError, query } from "@/lib/api";
 import type { Jurisdiction } from "@/lib/types";
+import { SidePanel } from "./SidePanel";
 
 /** Toggle switch in the chat header: flipping it fetches the same last
  * question against the OTHER jurisdiction's corpus and shows the answer in a
@@ -84,43 +85,41 @@ export function JurisdictionCompare({
         </span>
       </button>
 
-      {open && (
-        <div className="absolute right-0 top-full z-30 mt-2 w-72 max-w-[calc(100vw-2rem)] rounded-2xl bg-neu-surface p-4 text-left shadow-neu sm:w-80">
-          <p className="text-xs font-bold uppercase tracking-wide text-rose-600">
-            How this differs under {otherLabel} rules
+      <SidePanel open={open} onClose={() => setOpen(false)}>
+        <p className="text-xs font-bold uppercase tracking-wide text-rose-600">
+          How this differs under {otherLabel} rules
+        </p>
+
+        {!lastQuestion && (
+          <p className="mt-2 text-xs leading-relaxed text-neu-sub">
+            Ask a question first, then flip this to see how{" "}
+            {otherLabel.toLowerCase()} rules treat the same topic.
           </p>
+        )}
 
-          {!lastQuestion && (
-            <p className="mt-2 text-xs leading-relaxed text-neu-sub">
-              Ask a question first, then flip this to see how{" "}
-              {otherLabel.toLowerCase()} rules treat the same topic.
-            </p>
-          )}
+        {lastQuestion && loading && (
+          <p className="mt-2 text-xs leading-relaxed text-neu-sub">
+            Checking the {otherLabel.toLowerCase()} sources for &quot;
+            {lastQuestion}&quot;...
+          </p>
+        )}
 
-          {lastQuestion && loading && (
-            <p className="mt-2 text-xs leading-relaxed text-neu-sub">
-              Checking the {otherLabel.toLowerCase()} sources for &quot;
-              {lastQuestion}&quot;...
-            </p>
-          )}
+        {lastQuestion && !loading && error && (
+          <p className="mt-2 text-xs leading-relaxed text-red-600">{error}</p>
+        )}
 
-          {lastQuestion && !loading && error && (
-            <p className="mt-2 text-xs leading-relaxed text-red-600">{error}</p>
-          )}
-
-          {lastQuestion && !loading && !error && answer && (
-            <p
-              className={`mt-2 text-xs leading-relaxed ${
-                answer.abstained ? "text-amber-700" : "text-neu-text"
-              }`}
-            >
-              {answer.abstained
-                ? `Nothing in the ${otherLabel.toLowerCase()} corpus answers this directly.`
-                : answer.text}
-            </p>
-          )}
-        </div>
-      )}
+        {lastQuestion && !loading && !error && answer && (
+          <p
+            className={`mt-2 text-xs leading-relaxed ${
+              answer.abstained ? "text-amber-700" : "text-neu-text"
+            }`}
+          >
+            {answer.abstained
+              ? `Nothing in the ${otherLabel.toLowerCase()} corpus answers this directly.`
+              : answer.text}
+          </p>
+        )}
+      </SidePanel>
     </div>
   );
 }
