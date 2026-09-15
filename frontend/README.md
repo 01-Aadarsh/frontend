@@ -4,25 +4,33 @@ Next.js + TypeScript + Tailwind chat UI for the IP-SAKTI Sahayak RAG backend.
 Built directly against [`docs/API_CONTRACT.md`](../docs/API_CONTRACT.md) —
 read that first if you're changing how this talks to the backend.
 
-## Preview
+## Deploying
 
-**http://localhost:3000** — once you've run `npm run dev` (see below). There
-is no live/hosted deployment yet, so this only works while the dev server is
-running on your own machine.
+Deployed on Vercel. The only required configuration is the backend's URL:
 
-## Running locally
+1. Deploy the backend (see `../backend/`) somewhere reachable over HTTPS,
+   and add this frontend's deployed domain to its `CORS_ORIGINS`.
+2. In the Vercel project's **Settings → Environment Variables**, set
+   `NEXT_PUBLIC_API_BASE_URL` to that backend's URL (e.g.
+   `https://api.yourdomain.com`) — no trailing slash.
+3. Deploy. `src/lib/api.ts` has no fallback URL baked in on purpose: if this
+   variable isn't set, requests fail with a clear "backend isn't configured"
+   error instead of silently trying to reach a machine that doesn't exist in
+   production.
+
+## Local development
 
 ```bash
 cd frontend
 npm install
-cp .env.local.example .env.local   # adjust NEXT_PUBLIC_API_BASE_URL if needed
+cp .env.local.example .env.local   # points NEXT_PUBLIC_API_BASE_URL at your local backend
 npm run dev
 ```
 
-Opens on `http://localhost:3000`. The backend must be running separately
-(see `../backend/`) at the URL in `NEXT_PUBLIC_API_BASE_URL`
-(`http://127.0.0.1:8000` by default) — the header shows a live
-online/unreachable indicator polling `GET /health`.
+Opens on `http://localhost:3000`, talking to whatever `NEXT_PUBLIC_API_BASE_URL`
+in `.env.local` points at (a locally-running copy of `../backend/` by default).
+This file is for local development only and is never read in production —
+the deployed app uses the environment variable set in Vercel above.
 
 ## What's here
 
@@ -49,5 +57,5 @@ online/unreachable indicator polling `GET /health`.
 ## Known gaps
 
 - No automated tests yet.
-- No production `CORS_ORIGINS` value to point at — see the contract, this
-  hasn't been deployed.
+- The backend isn't deployed yet — see "Deploying" above for what's needed
+  once it is.

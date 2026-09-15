@@ -1,7 +1,11 @@
 import type { QueryRequest, QueryResponse } from "./types";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+/** No hardcoded fallback here on purpose — silently defaulting to a
+ * localhost address would make a misconfigured production deploy fail with
+ * a confusing generic network error instead of a clear, actionable one.
+ * Set this in your hosting platform's environment variables once the
+ * backend is deployed (see .env.local.example for local development). */
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || null;
 
 /**
  * The backend's own REQUEST_TIMEOUT defaults to 60s and returns a clean 504
@@ -29,6 +33,20 @@ export class ClientTimeoutError extends Error {
   }
 }
 
+export class ApiNotConfiguredError extends Error {
+  constructor() {
+    super(
+      "The backend isn't configured yet — set NEXT_PUBLIC_API_BASE_URL to your deployed backend's URL (see .env.local.example)."
+    );
+    this.name = "ApiNotConfiguredError";
+  }
+}
+
+function requireApiBaseUrl(): string {
+  if (!API_BASE_URL) throw new ApiNotConfiguredError();
+  return API_BASE_URL;
+}
+
 async function extractErrorDetail(res: Response): Promise<string> {
   try {
     const body = await res.json();
@@ -48,22 +66,14 @@ async function extractErrorDetail(res: Response): Promise<string> {
   }
 }
 
-export async function health(): Promise<boolean> {
-  try {
-    const res = await fetch(`${API_BASE_URL}/health`, { cache: "no-store" });
-    return res.ok;
-  } catch {
-    return false;
-  }
-}
-
 export async function query(req: QueryRequest): Promise<QueryResponse> {
+  const baseUrl = requireApiBaseUrl();
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), CLIENT_TIMEOUT_MS);
 
   let res: Response;
   try {
-    res = await fetch(`${API_BASE_URL}/query`, {
+    res = await fetch(`${baseUrl}/query`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -78,12 +88,7 @@ export async function query(req: QueryRequest): Promise<QueryResponse> {
     if (err instanceof DOMException && err.name === "AbortError") {
       throw new ClientTimeoutError();
     }
-    throw new ApiError(
-      "Could not reach the backend. Is it running at " +
-        API_BASE_URL +
-        "?",
-      0
-    );
+    throw new ApiError(`Could not reach the backend at ${baseUrl}.`, 0);
   } finally {
     clearTimeout(timeoutId);
   }
@@ -99,7 +104,7 @@ export async function query(req: QueryRequest): Promise<QueryResponse> {
 /** A citation's source PDF, servable directly by the backend's /sources
  * mount. `#page=N` is honored by most browsers' native PDF viewer. */
 export function sourceUrl(sourceFile: string, page?: number): string {
-  const base = `${API_BASE_URL}/sources/${encodeURIComponent(sourceFile)}`;
+  const base = `${requireApiBaseUrl()}/sources/${encodeURIComponent(sourceFile)}`;
   return page ? `${base}#page=${page}` : base;
 }
 

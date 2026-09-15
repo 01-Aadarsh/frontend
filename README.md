@@ -2,10 +2,11 @@
 
 ## Preview
 
-**Frontend (UI only):** http://localhost:3000 — after running `npm run dev`
-in `frontend/` (see "Running locally" below). No live/hosted deployment
-exists; this is local-only, and it's just the frontend — the backend must
-be running separately too for the chat to actually answer anything.
+**Frontend:** deployed on Vercel (see `frontend/README.md` for the
+deployment steps and required environment variable). **Backend:** not
+deployed yet — it still needs to be run locally (see "Running locally"
+below) and its URL pointed to from the frontend's
+`NEXT_PUBLIC_API_BASE_URL`, or the chat won't be able to answer anything.
 
 A RAG-based AI assistant that answers Ayurveda-related IP and regulatory questions by retrieving from official government and international documents and citing exactly which document, page and section each part of the answer came from — never letting the model write its own citation. Built for **SIH26045** (Ministry of Ayush).
 

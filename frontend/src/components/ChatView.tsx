@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ApiError, ClientTimeoutError, query } from "@/lib/api";
+import { ApiError, ApiNotConfiguredError, ClientTimeoutError, query } from "@/lib/api";
 import type {
   ChatTurn,
   Citation,
@@ -196,7 +196,7 @@ export function ChatView({
       }
     } catch (err) {
       const message =
-        err instanceof ApiError || err instanceof ClientTimeoutError
+        err instanceof ApiError || err instanceof ClientTimeoutError || err instanceof ApiNotConfiguredError
           ? err.message
           : "Something went wrong talking to the backend.";
       setMessages((prev) => [

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ApiError, ClientTimeoutError, query } from "@/lib/api";
+import { ApiError, ApiNotConfiguredError, ClientTimeoutError, query } from "@/lib/api";
 import type { Jurisdiction } from "@/lib/types";
 import { SidePanel } from "./SidePanel";
 
@@ -49,7 +49,7 @@ export function JurisdictionCompare({
       .catch((err) => {
         if (requestId.current !== thisRequest) return;
         setError(
-          err instanceof ApiError || err instanceof ClientTimeoutError
+          err instanceof ApiError || err instanceof ClientTimeoutError || err instanceof ApiNotConfiguredError
             ? err.message
             : "Something went wrong talking to the backend."
         );

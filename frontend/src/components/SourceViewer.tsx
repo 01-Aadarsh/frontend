@@ -22,6 +22,18 @@ export function SourceViewer({
     );
   }
 
+  let pdfSrc: string | null = null;
+  let sourceError: string | null = null;
+  try {
+    pdfSrc = sourceUrl(citation.source_file, citation.page_number);
+  } catch (err) {
+    // sourceUrl() throws if the backend URL isn't configured — shouldn't
+    // normally happen here (a citation only exists after a successful
+    // query, which requires it), but render a message instead of crashing
+    // rather than assume that can never change mid-session.
+    sourceError = err instanceof Error ? err.message : "Could not build the source URL.";
+  }
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between gap-2 border-b border-neu-bg bg-neu-surface px-4 py-3">
@@ -42,12 +54,18 @@ export function SourceViewer({
           ✕
         </button>
       </div>
-      <iframe
-        key={citation.chunk_id}
-        title={`${citation.source_file}, page ${citation.page_number}`}
-        src={sourceUrl(citation.source_file, citation.page_number)}
-        className="h-full w-full flex-1 bg-neu-bg/40"
-      />
+      {sourceError ? (
+        <div className="flex h-full flex-1 items-center justify-center p-8 text-center text-xs text-neu-sub">
+          {sourceError}
+        </div>
+      ) : (
+        <iframe
+          key={citation.chunk_id}
+          title={`${citation.source_file}, page ${citation.page_number}`}
+          src={pdfSrc ?? undefined}
+          className="h-full w-full flex-1 bg-neu-bg/40"
+        />
+      )}
     </div>
   );
 }
